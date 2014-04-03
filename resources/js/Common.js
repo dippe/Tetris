@@ -1,3 +1,5 @@
+this.dippejs = this.dippejs || {};
+
 (function(ns) {
     'use strict';
 
@@ -20,6 +22,6 @@
     */
     
     
-    fn.Common = new Common();
+    ns.Common = new Common();
     
-})(dippe)
+})(dippejs)

@@ -1,32 +1,49 @@
+
+this.dippejs = this.dippejs || {};
+
 (function(ns) {
     'use strict';
 
     /**
     *   Generate ticker event
-    *   Default 20/sec
     */
 
-    function Ticker(tickPerSec){
-        if(tickPerSec == undefined || tickPerSec*1 == NaN || tickPerSec < 1 )
-        this.tickPerSec =  tickPerSec;
-    }
+    function Ticker(){}
 
     var p = Ticker.prototype = {};
     p.constructor = Ticker;
 
-    p.setTicker = function(tickPerSec){
-
-    }
-
     /**
     *   Prototype methods
     */
-    
+
+    p.init = function(fps){
+        if(!ns.Common.isNumber(fps) || fps < 1){
+            throw "Invalid Ticker init number";
+        }
+
+        var counter = 0;
+        this.fps = fps;
+        this.callback = function(){counter++; if (counter%111 == 0) {console.log('a')}};
+        this.timeMs = 1/fps*1000;
+        this.timer = null;
+
+        this.start();
+    };
+
+    p.start = function(){
+        this.timer = setInterval(this.callback, this.timeMs);
+    }
+
+    p.stop = function(){
+        clearInterval(this.timer);
+    }
+
     /**
     *   Closure private
     */
     
     
-    fn.Ticker = new Ticker();
+    ns.Ticker = new Ticker();
     
-})(dippe)
+})(dippejs)

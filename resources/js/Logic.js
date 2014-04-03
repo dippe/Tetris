@@ -1,3 +1,5 @@
+this.dippejs = this.dippejs || {};
+
 (function(ns) {
     'use strict';
 
@@ -16,6 +18,6 @@
     */
     
     
-    fn.Logic = new Logic();
+    ns.Logic = new Logic();
     
-})(dippe)
+})(dippejs)
