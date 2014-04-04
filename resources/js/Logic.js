@@ -15,35 +15,35 @@ this.dippejs = this.dippejs || {};
 
 
     p.init = function(width, height){
-        this.shapeNum = null;
-        this.shapeRotation = null;
-        this.shapeX = null;
-        this.shapeY = null;
-        this.shapeSize = null;
+        this.tetriminoNum = null;
+        this.tetriminoRotation = null;
+        this.tetriminoX = null;
+        this.tetriminoY = null;
+        this.tetriminoSize = null;
 
         this.boardContent = [];
         this.boardWidth = width;
         this.boardHeight = height;
     }
 
-    p.loadShape = function(shapeNum){
-        this.shapeSize = 4;
+    p.loadTetrimino = function(tetriminoNum){
+        this.tetriminoSize = 4;
     }
 
     p.rotateLeft = function(){
-        this.shapeRotation = this.shapeRotation > 1 ? this.shapeRotation-- : this.shapeSize;
+        this.tetriminoRotation = this.tetriminoRotation > 1 ? this.tetriminoRotation-- : this.tetriminoSize;
     }
 
     p.moveDown = function(){
-        this.shapeY--;
+        this.tetriminoY--;
     }
 
     p.moveLeft = function(){
-        this.shapeX--;
+        this.tetriminoX--;
     }
 
     p.moveRight = function(){
-        this.shapeX++;
+        this.tetriminoX++;
     }
 
 
@@ -54,12 +54,12 @@ this.dippejs = this.dippejs || {};
     /**
     *   add to board on collision
     */
-    p._addToBoard = function(shapeMatrix, x, y){
-        for(i=0; i<shapeMatrix; i++){
+    p._addToMatrix = function(tetriminoMatrix, x, y){
+        for(i=0; i<tetriminoMatrix; i++){
         }
     }
 
-    p._isXCoordinateInsideBoard = function(x){
+    p._isXCoordinateInsideMatrix = function(x){
         return (x < this.boardWidth);
     }
 
