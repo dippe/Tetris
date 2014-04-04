@@ -19,6 +19,18 @@ this.dippejs = this.dippejs || {};
     p.init = function(){
         _initTicker();
         _initWindowEvents();
+        this.startGame();
+    }
+
+    p.startGame = function(){
+        for (var i=0; i<ns.Tetrimino.getTetriminoCount(); i++){
+            var tmp = ns.Tetrimino.getTetrimino(i);
+            for(var rotate=0; rotate<4; rotate++){
+                ns.Tetrimino.convertHexaToArray(tmp.blocks[rotate]);
+                console.log('\n .....');
+            }
+            console.log('\n ----');
+        }
     }
 
 
@@ -36,6 +48,7 @@ this.dippejs = this.dippejs || {};
             dippejs.Ticker.start();
         }
     }
+
 
     /**
     *   Closure private
