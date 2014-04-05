@@ -38,6 +38,7 @@ this.dippejs = this.dippejs || {};
 
         tmpArr = ns.Tetrimino.getTetriminoAsMatrixBlockArr(1, 2);
         this.draw.drawMatrixBlocks(tmpArr);
+        this.draw.clear();
 
     }
 

@@ -7,7 +7,7 @@ this.dippejs = this.dippejs || {};
         // initialize drawing functions
         this._initFunc('init', drawType);
         this._initFunc('drawMatrixBlocks', drawType);
-        this._initFunc('', drawType);
+        this._initFunc('clear', drawType);
         this.cssId = cssId;
     }
     
@@ -26,6 +26,7 @@ this.dippejs = this.dippejs || {};
     p.init = function(width, height){ throw 'not initialized';}
 
     p.drawMatrixBlocks =  function(matrixBlockArr){ throw 'not initialized';};
+    p.clear =  function(){ throw 'not initialized';};
 
 
     // function initializer
@@ -62,20 +63,14 @@ this.dippejs = this.dippejs || {};
     /**
     *   redraw the table content
     */
-    p.__Table_redraw = function(matrix){
-        var selector;
-        var isElem;
-        var domElem;
+    p.__Table_clear = function(matrix){
+        var domElems;
 
-        for (var y=0; y<matrix.length; y++){
-            for(var x=0; x<matrix[y].length; x++){
-                isElem = (matrix[x][y] & 1) === 1;
-                if (isElem){
-                    selector = '#' + this.cssId + ' .mxrow' + y  + ' .mxcol' + x;
-                    domElem = document.querySelector(selector);
-                    domElem.style.background = matrix[x][y].color;
-                }
-            }
+        domElems = document.querySelectorAll('#' + this.cssId + ' td');
+        [].forEach.call(domElems, clearCellContent);
+
+        function clearCellContent(elem, index, arr){
+            elem.innerHTML = '';
         }
     }
 

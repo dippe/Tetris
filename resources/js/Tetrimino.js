@@ -48,16 +48,16 @@ this.dippejs = this.dippejs || {};
         var hexa = tetrimino.blocks[rotation];
         var color = tetrimino.color;
 
-        var bitToArr = function(x,y,bit){
+        applyOnHexa(hexa, bitToArr);
+
+        return matrixBlockArr;
+
+        function bitToArr(x,y,bit){
             if(bit === 1){
                 tmpMatrixBlock = new ns.MatrixBlock(x,y,color);
                 matrixBlockArr.push(tmpMatrixBlock);
             }
         }
-
-        applyOnHexa(hexa, bitToArr);
-
-        return matrixBlockArr;
     }
 
 
