@@ -4,7 +4,7 @@ this.dippejs = this.dippejs || {};
     'use strict';
 
     var FPS = 1;
-    var DRAW_TYPE = ns.Const.DrawType.TABLE;
+    var DEFAULT_DRAW_TYPE = ns.Const.DrawType.TABLE_CHAR;
     var MATRIX_CSSID = 'matrixArea';
     var MATRIX_WIDTH = 10;
     var MATRIX_HEIGHT = 20;
@@ -13,8 +13,8 @@ this.dippejs = this.dippejs || {};
 
     Main.tickerTest = null;
     Main.tickerMove = null;
-    Main.draw = null;
-    Main.matrixBlockArr = null;
+    Main.drawer = null;
+    Main.matrixBlockArr = [];
 
     Main.init = function(){
         this._initWindowEvents();
@@ -23,40 +23,31 @@ this.dippejs = this.dippejs || {};
 
     Main.reStartGame = function(){
         var tmp, tmpArr;
-        var count = ns.Tetrimino.getTetriminoCount();
-        for (var i=0; i<count; i++){
-            tmp = ns.Tetrimino.getTetrimino(i);
-            for(var rotate=0; rotate<4; rotate++){
-                ns.Tetrimino.convertHexaToArray(tmp.blocks[rotate]);
-                console.log('\n .....');
+        var rndNum = Math.floor( Math.random()*(ns.Tetrimino.getTetriminoCount()) );
+        var rndRotate = Math.floor(Math.random()*4 );
 
-                tmpArr = ns.Tetrimino.getTetriminoAsMatrixBlockArr(i, rotate);
-
-            }
-            console.log('\n ----');
-        }
-
-        this.matrixBlockArr = ns.Tetrimino.getTetriminoAsMatrixBlockArr(1, 2);
+        this.activeTetrimino = new ns.Tetrimino(rndNum, rndRotate);
 
         this._initDraw();
-        this._initTestTicker();
+        this._initTestColorTicker();
         this._initMoveTicker();
 
     }
 
     Main._initDraw = function(){
         // fixme - destroy if exists
-        this.draw = new ns.Draw(MATRIX_CSSID, DRAW_TYPE);
-        this.draw.init(MATRIX_WIDTH, MATRIX_HEIGHT);
+        this.drawer = new ns.Draw(MATRIX_CSSID, DEFAULT_DRAW_TYPE);
+        this.drawer.init(MATRIX_WIDTH, MATRIX_HEIGHT);
     }
 
-    Main._initTestTicker = function(){
+    // bg color changer test
+    Main._initTestColorTicker = function(){
         // fixme - destroy if exists
         var ticker = new ns.Ticker();
         var color = 0xffffff;
         this.tickerTest = ticker;
         ticker.init(2, callback);
-        ticker.start();
+        //ticker.start();
 
 //        callback test:
         function callback() {
@@ -67,21 +58,29 @@ this.dippejs = this.dippejs || {};
 
     }
 
+    // Matrix Block move + draw
     Main._initMoveTicker = function(){
         // fixme - destroy if exists
         var ticker = new ns.Ticker();
-        var draw = this.draw;
+        var draw = ns.Main.drawer;
         var matrixBlockArr = this.matrixBlockArr;
+        var tetrimino = this.activeTetrimino;
         ticker.init(FPS, callback);
         ticker.start();
         this.tickerMove = ticker;
 
-
 //        callback test:
         function callback() {
-            this;
-            draw.drawMatrixBlocks(matrixBlockArr);
+            // test movement + rotation
+            tetrimino.moveDown();
+            tetrimino.rotateLeft();
+            var tetriminoBlockArr = tetrimino.getAsMatrixBlockArr();
+
             draw.clear();
+            // draw the table with fixed elements
+            draw.drawMatrixBlocks(matrixBlockArr);
+            // draw the active tetrimino
+            draw.drawMatrixBlocks(tetriminoBlockArr);
         }
 
     }

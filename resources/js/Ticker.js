@@ -8,7 +8,12 @@ this.dippejs = this.dippejs || {};
     *   Generate ticker
     */
 
-    function Ticker(){}
+    function Ticker(){
+        this._fps = null;
+        this._callback = null;
+        this._timeMs = null;
+        this._timer = null;
+    }
 
     var p = Ticker.prototype = {};
     p.constructor = Ticker;
@@ -22,20 +27,18 @@ this.dippejs = this.dippejs || {};
             throw "Invalid Ticker init number";
         }
 
-        this.fps = fps;
-        this.callback = callback;
-        this.timeMs = 1/fps*1000;
-        this.timer = null;
-
-        this.start();
+        this._fps = fps;
+        this._callback = callback;
+        this._timeMs = 1 / fps * 1000;
+        this._timer = null;
     };
 
     p.start = function(){
-        this.timer = setInterval(this.callback, this.timeMs);
+        this._timer = setInterval(this._callback, this._timeMs);
     }
 
     p.stop = function(){
-        clearInterval(this.timer);
+        clearInterval(this._timer);
     }
     
     ns.Ticker = Ticker;

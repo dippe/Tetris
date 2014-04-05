@@ -7,7 +7,8 @@ this.dippejs = this.dippejs || {};
     ns.Const = Const;
 
     Const.DrawType = {
-        TABLE : 'Table',
+        TABLE_CSS : 'TableCss',
+        TABLE_CHAR : 'TableChar',
         CONSOLE : 'Console'
     }
 
