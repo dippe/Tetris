@@ -16,6 +16,12 @@ this.dippejs = this.dippejs || {};
     p.isNumber = function(n){
         return (!isNaN(parseFloat(n)) && isFinite(n));
     }
+
+    p.validateObjType = function(obj, type){
+        if ( ! (obj instanceof type) ) {
+            throw "validation error: obj is not instance of " + type;
+        }
+    }
     
     /**
     *   Closure private

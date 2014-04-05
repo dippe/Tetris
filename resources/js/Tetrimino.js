@@ -5,6 +5,7 @@ this.dippejs = this.dippejs || {};
 
     var SIZE = 4;
 
+    // hexa representation
     var TETRIMINOS = [
         { blocks: [0x0F00, 0x2222, 0x00F0, 0x4444], color: 'cyan'   },
         { blocks: [0x44C0, 0x8E00, 0x6440, 0x0E20], color: 'blue'   },
@@ -36,6 +37,29 @@ this.dippejs = this.dippejs || {};
         return TETRIMINOS.length;
     }
 
+    /**
+    * num: number of Tetrimino
+    * rotation: 0-3
+    */
+    p.getTetriminoAsMatrixBlockArr = function(num, rotation){
+        var matrixBlockArr = [];
+        var tmpMatrixBlock;
+        var tetrimino = this.getTetrimino(num);
+        var hexa = tetrimino.blocks[rotation];
+        var color = tetrimino.color;
+
+        var bitToArr = function(x,y,bit){
+            if(bit === 1){
+                tmpMatrixBlock = new ns.MatrixBlock(x,y,color);
+                matrixBlockArr.push(tmpMatrixBlock);
+            }
+        }
+
+        applyOnHexa(hexa, bitToArr);
+
+        return matrixBlockArr;
+    }
+
 
     // FIXME: it's inverted now
     p.convertHexaToArray = function(hexa){
@@ -57,10 +81,22 @@ this.dippejs = this.dippejs || {};
     }
 
 
+
+
     /**
     *   Closure private
     */
 
+    var applyOnHexa = function(hexa, func){
+        var tmpHexa = hexa;
+        for(var x=0; x<SIZE; x++){
+            for(var y=0; y<SIZE; y++){
+                var bit = tmpHexa & 1;
+                func(x, y, bit);
+                tmpHexa = tmpHexa >> 1;
+            }
+        }
+    }
 
 
     ns.Tetrimino = new Tetrimino();

@@ -52,11 +52,20 @@ this.dippejs = this.dippejs || {};
     */
 
     /**
-    *   add to board on collision
+    *   add tetrimino to the matrix e.g. on collision
     */
-    p._addToMatrix = function(tetriminoMatrix, x, y){
+    p._addTetriminoToMatrix = function(matrix, tetrimino, x, y){
+        ns.Common.validateObjType(matrix, Array);
         for(i=0; i<tetriminoMatrix; i++){
         }
+    }
+
+    p.addBlockToMatrix = function(matrix, matrixBlock){
+
+    }
+
+    p.removeFromMatrixByCoord = function(matrix, x, y){
+
     }
 
     p._isXCoordinateInsideMatrix = function(x){
@@ -67,7 +76,6 @@ this.dippejs = this.dippejs || {};
         //for (i=0; i<this.boardContent)
     }
 
-    
     /**
     *   Closure private
     */

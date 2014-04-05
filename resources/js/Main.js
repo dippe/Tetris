@@ -28,8 +28,13 @@ this.dippejs = this.dippejs || {};
             for(var rotate=0; rotate<4; rotate++){
                 ns.Tetrimino.convertHexaToArray(tmp.blocks[rotate]);
                 console.log('\n .....');
+
+                var tmpArr = ns.Tetrimino.getTetriminoAsMatrixBlockArr(i, rotate);
+
             }
             console.log('\n ----');
+
+
         }
     }
 

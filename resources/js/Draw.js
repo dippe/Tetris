@@ -18,9 +18,11 @@ this.dippejs = this.dippejs || {};
         CONSOLE : 'Console'
     }
 
-    p.init = function(drawType){
+    p.init = function(matrix, drawType, cssId){
         var redrawFuncName = '_redraw' + drawType + 'Func';
+        var initFuncName = '_init' + drawType + 'Func';
         this.redrawMatrix = this[redrawFuncName];
+        this[initFuncName](cssId, matrix);
     }
 
 
@@ -38,23 +40,40 @@ this.dippejs = this.dippejs || {};
     */
 
     /**
-    *   First table draw
+    *   First time table draw
     */
-    p._initTableFunc = function(matrix){
-        for(x=0; x<matrix.length; x++){
-            for (y=0; y<matrix[i].length; y++){
-                ;
+    p._initTableFunc = function(cssId, width, height){
+        var rootDiv = document.getElementById(cssId);
+
+        var tableHtml = '<table>';
+        for(y=0; y<width; y++){
+            tableHtml += '<tr class="mxrow' + y + '">';
+            for (x=0; x<height; x++){
+                tableHtml += '<td class="mxcol' + x + '"> </td>';
             }
+            tableHtml += '</tr>';
         }
+        tableHtml += '</table>';
+
+        rootDiv.innerHtml = tableHtml;
     }
 
     /**
     *   redraw the table content
     */
-    p._redrawTableFunc = function(matrix){
-        for(x=0; x<matrix.length; x++){
-            for (y=0; y<matrix[i].length; y++){
-                ;
+    p._redrawTableFunc = function(cssId, matrix){
+        var selector;
+        var isElem;
+        var domElem;
+
+        for (y=0; y<matrix.length; y++){
+            for(x=0; x<matrix[y].length; x++){
+                isElem = (matrix[x][y] & 1) === 1;
+                if (isElem){
+                    selector = '#' + cssId + ' .mxrow' + y  + ' .mxcol' + x;
+                    domElem = document.querySelector(selector);
+                    domElem.style.background = matrix[x][y].color;
+                }
             }
         }
     }
