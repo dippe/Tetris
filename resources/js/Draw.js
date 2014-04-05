@@ -24,7 +24,6 @@ this.dippejs = this.dippejs || {};
     */
 
     p.init = function(width, height){ throw 'not initialized';}
-
     p.drawMatrixBlocks =  function(matrixBlockArr){ throw 'not initialized';};
     p.clear =  function(){ throw 'not initialized';};
 
@@ -91,9 +90,9 @@ this.dippejs = this.dippejs || {};
 
     p.__Console_redraw = function(matrix){
         console.log('\n ------------------ ');
-        for(x=0; x<matrix.length; x++){
+        for(var x=0; x<matrix.length; x++){
             console.log('\n');
-            for (y=0; y<matrix[x].length; y++){
+            for (var y=0; y<matrix[x].length; y++){
                 console.log(matrix[x][y]);
             }
         }

@@ -5,7 +5,7 @@ this.dippejs = this.dippejs || {};
     'use strict';
 
     /**
-    *   Generate ticker event
+    *   Generate ticker
     */
 
     function Ticker(){}
@@ -17,14 +17,13 @@ this.dippejs = this.dippejs || {};
     *   Prototype methods
     */
 
-    p.init = function(fps){
-        if(!ns.Common.isNumber(fps) || fps < 1){
+    p.init = function(fps, callback){
+        if(!ns.Common.isNumber(fps) || fps <= 0){
             throw "Invalid Ticker init number";
         }
 
-        var counter = 0;
         this.fps = fps;
-        this.callback = function(){counter++; if (counter%111 == 0) {console.log('a')}};
+        this.callback = callback;
         this.timeMs = 1/fps*1000;
         this.timer = null;
 
@@ -38,12 +37,7 @@ this.dippejs = this.dippejs || {};
     p.stop = function(){
         clearInterval(this.timer);
     }
-
-    /**
-    *   Closure private
-    */
     
-    
-    ns.Ticker = new Ticker();
+    ns.Ticker = Ticker;
     
 })(dippejs)
