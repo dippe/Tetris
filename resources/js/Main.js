@@ -4,48 +4,56 @@ this.dippejs = this.dippejs || {};
     'use strict';
 
     var FPS = 22;
+    var DRAW_TYPE = ns.Const.DrawType.TABLE;
+    var MATRIX_CSSID = 'matrixArea';
+    var MATRIX_WIDTH = 10;
+    var MATRIX_HEIGHT = 20;
 
+    var Main = {};
 
-    function Main(){
+    Main.ticker = null;
+    Main.draw = null;
+
+    Main.init = function(){
+        this._initTicker();
+        this._initWindowEvents();
+        this._initDraw();
+        this.reStartGame();
     }
-    
-    var p = Main.prototype = {};
-    p.constructor = Main;
-    
-    /**
-    *   Prototype methods
-    */
 
-    p.init = function(){
-        _initTicker();
-        _initWindowEvents();
-        this.startGame();
-    }
-
-    p.startGame = function(){
-        for (var i=0; i<ns.Tetrimino.getTetriminoCount(); i++){
-            var tmp = ns.Tetrimino.getTetrimino(i);
+    Main.reStartGame = function(){
+        var tmp, tmpArr;
+        var count = ns.Tetrimino.getTetriminoCount();
+        for (var i=0; i<count; i++){
+            tmp = ns.Tetrimino.getTetrimino(i);
             for(var rotate=0; rotate<4; rotate++){
                 ns.Tetrimino.convertHexaToArray(tmp.blocks[rotate]);
                 console.log('\n .....');
 
-                var tmpArr = ns.Tetrimino.getTetriminoAsMatrixBlockArr(i, rotate);
+                tmpArr = ns.Tetrimino.getTetriminoAsMatrixBlockArr(i, rotate);
 
             }
             console.log('\n ----');
-
-
         }
+
+        tmpArr = ns.Tetrimino.getTetriminoAsMatrixBlockArr(1, 2);
+        this.draw.drawMatrixBlocks(tmpArr);
+
     }
 
+    Main._initDraw = function(){
+        this.draw = new ns.Draw(MATRIX_CSSID, DRAW_TYPE);
+        this.draw.init(MATRIX_WIDTH, MATRIX_HEIGHT);
+    }
 
-    var _initTicker = function(){
-        var ticker = dippejs.Ticker;
+    Main._initTicker = function(){
+        var ticker = ns.Ticker;
         ticker.init(FPS);
         ticker.start();
+        this.ticker = ticker;
     }
 
-    var _initWindowEvents = function(){
+    Main._initWindowEvents = function(){
         window.onbeforeunload = function(){
             dippejs.Ticker.stop();
         }
@@ -54,12 +62,6 @@ this.dippejs = this.dippejs || {};
         }
     }
 
-
-    /**
-    *   Closure private
-    */
-    
-    
-    ns.Main = new Main();
+    ns.Main = Main;
     
 })(dippejs)

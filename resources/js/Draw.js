@@ -3,7 +3,12 @@ this.dippejs = this.dippejs || {};
 (function(ns) {
     'use strict';
 
-    function Draw(){
+    function Draw(cssId, drawType){
+        // initialize drawing functions
+        this._initFunc('init', drawType);
+        this._initFunc('drawMatrixBlocks', drawType);
+        this._initFunc('', drawType);
+        this.cssId = cssId;
     }
     
     var p = Draw.prototype = {};
@@ -13,64 +18,60 @@ this.dippejs = this.dippejs || {};
     *   Prototype methods
     */
 
-    p.Types = {
-        TABLE : 'Table',
-        CONSOLE : 'Console'
-    }
-
-    p.init = function(matrix, drawType, cssId){
-        var redrawFuncName = '_redraw' + drawType + 'Func';
-        var initFuncName = '_init' + drawType + 'Func';
-        this.redrawMatrix = this[redrawFuncName];
-        this[initFuncName](cssId, matrix);
-    }
-
 
     /**
-    *   Should be initialized
+    *   Should be initialized in constructor
     */
-    p.drawMatrix = null;
+
+    p.init = function(width, height){ throw 'not initialized';}
+
+    p.drawMatrixBlocks =  function(matrixBlockArr){ throw 'not initialized';};
 
 
+    // function initializer
+    p._initFunc = function(funcName, drawType){
+        var anchestorFuncName = '__' + drawType + '_' + funcName;
+        this[funcName] = this[anchestorFuncName];
+    }
 
     /*********************
     *
-    *   Private methods
+    *   Closure Private methods
     *
     */
 
     /**
     *   First time table draw
     */
-    p._initTableFunc = function(cssId, width, height){
-        var rootDiv = document.getElementById(cssId);
+    p.__Table_init = function(width, height){
+        var rootDiv = document.getElementById(this.cssId);
 
-        var tableHtml = '<table>';
-        for(y=0; y<width; y++){
+        var tableHtml = '<table border="1">';
+        for(var y=0; y<height; y++){
             tableHtml += '<tr class="mxrow' + y + '">';
-            for (x=0; x<height; x++){
-                tableHtml += '<td class="mxcol' + x + '"> </td>';
+            for (var x=0; x<width; x++){
+                tableHtml += '<td class="mxcol' + x + '"> 0 </td>';
             }
             tableHtml += '</tr>';
         }
         tableHtml += '</table>';
 
-        rootDiv.innerHtml = tableHtml;
+        rootDiv.innerHTML = tableHtml;
     }
 
     /**
     *   redraw the table content
     */
-    p._redrawTableFunc = function(cssId, matrix){
+    p.__Table_redraw = function(matrix){
         var selector;
         var isElem;
         var domElem;
 
-        for (y=0; y<matrix.length; y++){
-            for(x=0; x<matrix[y].length; x++){
+        for (var y=0; y<matrix.length; y++){
+            for(var x=0; x<matrix[y].length; x++){
                 isElem = (matrix[x][y] & 1) === 1;
                 if (isElem){
-                    selector = '#' + cssId + ' .mxrow' + y  + ' .mxcol' + x;
+                    selector = '#' + this.cssId + ' .mxrow' + y  + ' .mxcol' + x;
                     domElem = document.querySelector(selector);
                     domElem.style.background = matrix[x][y].color;
                 }
@@ -78,12 +79,22 @@ this.dippejs = this.dippejs || {};
         }
     }
 
+    p.__Table_drawMatrixBlocks = function(matrixBlockArr){
+        var block, selector, domElem;
+        for(var i=0; i<matrixBlockArr.length; i++){
+            block = matrixBlockArr[i];
+            selector = '#' + this.cssId + ' .mxrow' + block.y  + ' .mxcol' + block.x;
+            domElem = document.querySelector(selector);
+            domElem.innerText = 'X';
+        }
+    }
+
     /**
     *   Console drawing for testing
     */
-    p._initConsoleFunc = function(matrix){}
+    p.__Console_init = function(matrix){}
 
-    p._redrawConsoleFunc = function(matrix){
+    p.__Console_redraw = function(matrix){
         console.log('\n ------------------ ');
         for(x=0; x<matrix.length; x++){
             console.log('\n');
@@ -93,6 +104,9 @@ this.dippejs = this.dippejs || {};
         }
     }
 
-    ns.Draw = new Draw();
+    p.__Console_showBlocks = function(matrix, matrixBlockArr){
+    }
+
+    ns.Draw = Draw;
 
 })(dippejs)

@@ -4,7 +4,7 @@ this.dippejs = this.dippejs || {};
     'use strict';
 
     /**
-    *   Smallest piece of the matrix = matrix block
+    *   Smallest not empty piece of the matrix = matrix block
     */
     function MatrixBlock(x, y, color){
         this.x = x;
