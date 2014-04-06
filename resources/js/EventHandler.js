@@ -1,27 +1,27 @@
 this.dippejs = this.dippejs || {};
 
-(function(ns) {
+(function (ns) {
     'use strict';
 
     /**
-    * Event handler with Easeljs compatible API
-    */
+     * Event handler with Easeljs compatible API
+     */
 
-    function EventHandler(){
+    function EventHandler() {
     }
-    
+
     var p = EventHandler.prototype = {};
     p.constructor = EventHandler;
-    
+
     /**
-    *   Prototype methods
-    */
-    
+     *   Prototype methods
+     */
+
     /**
-    *   Closure private
-    */
-    
-    
+     *   Closure private
+     */
+
+
     ns.EventHandler = EventHandler;
-    
-})(dippejs)
+
+})(this.dippejs)

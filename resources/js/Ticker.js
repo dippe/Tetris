@@ -1,14 +1,13 @@
-
 this.dippejs = this.dippejs || {};
 
-(function(ns) {
+(function (ns) {
     'use strict';
 
     /**
-    *   Generate ticker
-    */
+     *   Generate ticker
+     */
 
-    function Ticker(){
+    function Ticker() {
         this._fps = null;
         this._callback = null;
         this._timeMs = null;
@@ -19,11 +18,11 @@ this.dippejs = this.dippejs || {};
     p.constructor = Ticker;
 
     /**
-    *   Prototype methods
-    */
+     *   Prototype methods
+     */
 
-    p.init = function(fps, callback){
-        if(!ns.Common.isNumber(fps) || fps <= 0){
+    p.init = function (fps, callback) {
+        if (!ns.Common.isNumber(fps) || fps <= 0) {
             throw "Invalid Ticker init number";
         }
 
@@ -33,14 +32,14 @@ this.dippejs = this.dippejs || {};
         this._timer = null;
     };
 
-    p.start = function(){
+    p.start = function () {
         this._timer = setInterval(this._callback, this._timeMs);
     }
 
-    p.stop = function(){
+    p.stop = function () {
         clearInterval(this._timer);
     }
-    
+
     ns.Ticker = Ticker;
-    
+
 })(dippejs)

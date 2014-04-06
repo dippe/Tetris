@@ -1,33 +1,33 @@
 this.dippejs = this.dippejs || {};
 
-(function(ns) {
+(function (ns) {
     'use strict';
 
-    function Common(){
+    function Common() {
     }
-    
+
     var p = Common.prototype = {};
     p.constructor = Common;
-    
-    /**
-    *   Prototype methods
-    */
 
-    p.isNumber = function(n){
+    /**
+     *   Prototype methods
+     */
+
+    p.isNumber = function (n) {
         return (!isNaN(parseFloat(n)) && isFinite(n));
     }
 
-    p.validateObjType = function(obj, type){
-        if ( ! (obj instanceof type) ) {
+    p.validateObjType = function (obj, type) {
+        if (!(obj instanceof type)) {
             throw "validation error: obj is not instance of " + type;
         }
     }
-    
+
     /**
-    *   Closure private
-    */
-    
-    
+     *   Closure private
+     */
+
+
     ns.Common = new Common();
-    
+
 })(dippejs)

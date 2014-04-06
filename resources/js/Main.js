@@ -1,6 +1,6 @@
 this.dippejs = this.dippejs || {};
 
-(function(ns) {
+(function (ns) {
     'use strict';
 
     var FPS = 1;
@@ -16,15 +16,15 @@ this.dippejs = this.dippejs || {};
     Main.drawer = null;
     Main.matrixBlockArr = [];
 
-    Main.init = function(){
+    Main.init = function () {
         this._initWindowEvents();
         this.reStartGame();
     }
 
-    Main.reStartGame = function(){
+    Main.reStartGame = function () {
         var tmp, tmpArr;
-        var rndNum = Math.floor( Math.random()*(ns.Tetrimino.getTetriminoCount()) );
-        var rndRotate = Math.floor(Math.random()*4 );
+        var rndNum = Math.floor(Math.random() * (ns.Tetrimino.getTetriminoCount()));
+        var rndRotate = Math.floor(Math.random() * 4);
 
         this.activeTetrimino = new ns.Tetrimino(rndNum, rndRotate);
 
@@ -34,14 +34,14 @@ this.dippejs = this.dippejs || {};
 
     }
 
-    Main._initDraw = function(){
+    Main._initDraw = function () {
         // fixme - destroy if exists
         this.drawer = new ns.Draw(MATRIX_CSSID, DEFAULT_DRAW_TYPE);
         this.drawer.init(MATRIX_WIDTH, MATRIX_HEIGHT);
     }
 
     // bg color changer test
-    Main._initTestColorTicker = function(){
+    Main._initTestColorTicker = function () {
         // fixme - destroy if exists
         var ticker = new ns.Ticker();
         var color = 0xffffff;
@@ -51,7 +51,7 @@ this.dippejs = this.dippejs || {};
 
 //        callback test:
         function callback() {
-            color --;
+            color--;
             document.querySelector('body').style.background = '#' + color.toString(16);
             //console.log(color);
         }
@@ -59,7 +59,7 @@ this.dippejs = this.dippejs || {};
     }
 
     // Matrix Block move + draw
-    Main._initMoveTicker = function(){
+    Main._initMoveTicker = function () {
         // fixme - destroy if exists
         var ticker = new ns.Ticker();
         var draw = ns.Main.drawer;
@@ -86,17 +86,15 @@ this.dippejs = this.dippejs || {};
     }
 
 
-
-
-    Main._initWindowEvents = function(){
-        window.onbeforeunload = function(){
+    Main._initWindowEvents = function () {
+        window.onbeforeunload = function () {
             dippejs.Ticker.stop();
         }
-        window.onfocus = function(){
+        window.onfocus = function () {
             dippejs.Ticker.start();
         }
     }
 
     ns.Main = Main;
-    
+
 })(dippejs)

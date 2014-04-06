@@ -1,23 +1,23 @@
 this.dippejs = this.dippejs || {};
 
-(function(ns) {
+(function (ns) {
     'use strict';
 
-    function InputWrapper(){
+    function InputWrapper() {
     }
-    
+
     var p = InputWrapper.prototype = {};
     p.constructor = InputWrapper;
-    
+
     /**
-    *   Prototype methods
-    */
-    
+     *   Prototype methods
+     */
+
     /**
-    *   Closure private
-    */
-    
-    
+     *   Closure private
+     */
+
+
     ns.InputWrapper = new InputWrapper();
-    
-})(dippejs)
+
+})(this.dippejs)
