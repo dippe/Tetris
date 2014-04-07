@@ -25,8 +25,11 @@ this.dippejs = this.dippejs || {};
 
 
     // static method
-    Tetrimino.getTetriminoCount = function () {
-        return TETRIMINOS.length;
+    Tetrimino.getRandomTetrimino = function () {
+        var rndNum = Math.floor(Math.random() * (TETRIMINOS.length));
+        var rndRotate = Math.floor(Math.random() * 4);
+
+        return new Tetrimino(rndNum, rndRotate);
     }
 
 

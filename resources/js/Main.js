@@ -7,7 +7,7 @@ this.dippejs = this.dippejs || {};
     var DEFAULT_DRAW_TYPE = ns.Const.DrawType.TABLE_CHAR;
     var MATRIX_CSSID = 'matrixArea';
     var MATRIX_WIDTH = 10;
-    var MATRIX_HEIGHT = 20;
+    var MATRIX_HEIGHT = 10;
 
     var Main = {};
 
@@ -17,16 +17,14 @@ this.dippejs = this.dippejs || {};
     Main.matrixBlockArr = [];
 
     Main.init = function () {
-        this._initWindowEvents();
         this.reStartGame();
+        this._initWindowEvents();
     }
 
     Main.reStartGame = function () {
         var tmp, tmpArr;
-        var rndNum = Math.floor(Math.random() * (ns.Tetrimino.getTetriminoCount()));
-        var rndRotate = Math.floor(Math.random() * 4);
 
-        this.activeTetrimino = new ns.Tetrimino(rndNum, rndRotate);
+        this.activeTetrimino = new ns.Tetrimino.getRandomTetrimino();
 
         this._initDraw();
         this._initTestColorTicker();
@@ -63,38 +61,48 @@ this.dippejs = this.dippejs || {};
         // fixme - destroy if exists
         var ticker = new ns.Ticker();
         var draw = ns.Main.drawer;
-        var matrixBlockArr = this.matrixBlockArr;
+        var matrixBlocks = this.matrixBlockArr;
         var tetrimino = this.activeTetrimino;
-        ticker.init(FPS, callback);
+        ticker.init(FPS, callback.bind(this));
         ticker.start();
         this.tickerMove = ticker;
 
 //        callback test:
         function callback() {
-            // test movement + rotation
-            tetrimino.moveDown();
-            tetrimino.rotateLeft();
-            var tetriminoBlockArr = tetrimino.getAsMatrixBlockArr();
+
+            var tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
+            if ( ns.Logic.isNextStepCollision(matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT)){
+                matrixBlocks = matrixBlocks.concat(tetriminoBlocks);
+                tetrimino = ns.Tetrimino.getRandomTetrimino();
+            }else{
+                // test movement + rotation
+                tetrimino.moveDown();
+              //  tetrimino.rotateLeft();
+            }
 
             draw.clear();
             // draw the table with fixed elements
-            draw.drawMatrixBlocks(matrixBlockArr);
+            draw.drawMatrixBlocks(matrixBlocks);
             // draw the active tetrimino
-            draw.drawMatrixBlocks(tetriminoBlockArr);
+            draw.drawMatrixBlocks(tetriminoBlocks);
         }
 
     }
 
 
     Main._initWindowEvents = function () {
-        window.onbeforeunload = function () {
-            dippejs.Ticker.stop();
+        var tickerMove = this.tickerMove;
+        var tickerTest = this.tickerTest;
+        window.onunload = window.onbeforeunload = function () {
+            tickerMove.stop();
+            tickerTest.stop();
         }
         window.onfocus = function () {
-            dippejs.Ticker.start();
+            tickerMove.start();
+            tickerTest.start();
         }
     }
 
     ns.Main = Main;
 
-})(dippejs)
+})(this.dippejs)
