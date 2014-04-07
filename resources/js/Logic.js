@@ -49,7 +49,7 @@ this.dippejs = this.dippejs || {};
     }
 
     function _isOnMatrixEnd(block, matrixHeight){
-        return block.y > matrixHeight;
+        return block.y > (matrixHeight-1);
     }
 
 
