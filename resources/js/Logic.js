@@ -16,7 +16,7 @@ this.dippejs = this.dippejs || {};
 
     // TODO refactor this
     Logic.isNextStepCollision = function (matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, offsetX, offsetY) {
-        var nextStepTetriminoBlocks = [];
+        var nextStepTetriminoBlocks = tetriminoBlocks;
         // todo replace with array.clone?
         tetriminoBlocks.forEach(function (block) {
             nextStepTetriminoBlocks.push(new ns.MatrixBlock(block.x + offsetX, block.y + offsetY, block.color));
@@ -50,7 +50,7 @@ this.dippejs = this.dippejs || {};
     }
 
     function _isCollision(blockA, blockB) {
-        return (blockA.x == blockB.x) && (blockA.y == blockB.y);
+        return (blockA.x === blockB.x) && (blockA.y === blockB.y);
     }
 
     function _isOnMatrixEndCollision(block, matrixHeight) {
@@ -58,7 +58,7 @@ this.dippejs = this.dippejs || {};
     }
 
     function _isOnMatrixSideCollision(block, matrixWidth) {
-        return (block.x < 0) || (block.x >= (matrixWidth - 1));
+        return (block.x < 0) || (block.x >= (matrixWidth));
     }
 
 

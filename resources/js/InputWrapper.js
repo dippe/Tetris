@@ -36,7 +36,7 @@ this.dippejs = this.dippejs || {};
     p.rightMove = function () {
         console.log("right");
         // TODO: replace direct calls with event handler!!
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, -1, 0)) {
+        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 1, 0)) {
             ns.Main.activeTetrimino.moveRight();
             ns.Main.reDraw();
         }
@@ -55,7 +55,7 @@ this.dippejs = this.dippejs || {};
         console.log("down");
         // TODO: replace direct calls with event handler!!
         // TODO check rotation collision
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, -1, 0)) {
+        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, 0)) {
             ns.Main.activeTetrimino.rotateRight();
             ns.Main.reDraw();
         }
@@ -65,7 +65,7 @@ this.dippejs = this.dippejs || {};
         console.log("down");
         // TODO: replace direct calls with event handler!!
         // TODO check rotation collision
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, -1, 0)) {
+        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, 0)) {
             ns.Main.activeTetrimino.rotateLeft();
             ns.Main.reDraw();
         }
@@ -74,7 +74,7 @@ this.dippejs = this.dippejs || {};
     p.downMove = function () {
         console.log("down");
         // TODO: replace direct calls with event handler!!
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, -1, 0)) {
+        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 1, 0)) {
             ns.Main.activeTetrimino.moveDown();
             ns.Main.reDraw();
         }

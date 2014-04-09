@@ -6,10 +6,11 @@ this.dippejs = this.dippejs || {};
     var FPS = 2;
     var DEFAULT_DRAW_TYPE = ns.Const.DrawType.TABLE_CHAR;
     var MATRIX_CSSID = 'matrixArea';
-    var MATRIX_WIDTH = 10;
-    var MATRIX_HEIGHT = 10;
 
     var Main = {};
+
+    Main.MATRIX_WIDTH = 10;
+    Main.MATRIX_HEIGHT = 10;
 
     Main.tickerTest = null;
     Main.tickerMove = null;
@@ -36,7 +37,7 @@ this.dippejs = this.dippejs || {};
     Main._initDraw = function () {
         // fixme - destroy if exists
         this.drawer = new ns.Draw(MATRIX_CSSID, DEFAULT_DRAW_TYPE);
-        this.drawer.init(MATRIX_WIDTH, MATRIX_HEIGHT);
+        this.drawer.init(ns.Main.MATRIX_WIDTH, ns.Main.MATRIX_HEIGHT);
     }
 
     // bg color changer test
@@ -69,11 +70,11 @@ this.dippejs = this.dippejs || {};
         function callback() {
             var tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
 
-            if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT, MATRIX_WIDTH, 0, 1)) {
+            if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, ns.Main.MATRIX_HEIGHT - 1, ns.Main.MATRIX_WIDTH, 0, 1)) {
                 ns.Main.matrixBlocks = ns.Main.matrixBlocks.concat(tetriminoBlocks);
                 ns.Main.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
                 tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
-                if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT, MATRIX_WIDTH, 0, 1)) {
+                if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, 1)) {
                     this._gameOver();
                 }
             } else {
@@ -89,7 +90,6 @@ this.dippejs = this.dippejs || {};
         var tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
         var draw = ns.Main.drawer;
         var matrixBlocks = ns.Main.matrixBlocks;
-
 
         draw.clear();
         // draw the table with fixed elements
