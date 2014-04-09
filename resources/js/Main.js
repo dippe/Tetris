@@ -3,7 +3,7 @@ this.dippejs = this.dippejs || {};
 (function (ns) {
     'use strict';
 
-    var FPS = 1;
+    var FPS = 2;
     var DEFAULT_DRAW_TYPE = ns.Const.DrawType.TABLE_CHAR;
     var MATRIX_CSSID = 'matrixArea';
     var MATRIX_WIDTH = 10;
@@ -63,6 +63,7 @@ this.dippejs = this.dippejs || {};
         var draw = ns.Main.drawer;
         var matrixBlocks = this.matrixBlockArr;
         var tetrimino = this.activeTetrimino;
+        var tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
         ticker.init(FPS, callback.bind(this));
         ticker.start();
         this.tickerMove = ticker;
@@ -70,14 +71,18 @@ this.dippejs = this.dippejs || {};
 //        callback test:
         function callback() {
 
-            var tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
-            if ( ns.Logic.isNextStepCollision(matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT)){
+            if (ns.Logic.isNextStepCollision(matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT)) {
                 matrixBlocks = matrixBlocks.concat(tetriminoBlocks);
                 tetrimino = ns.Tetrimino.getRandomTetrimino();
-            }else{
+                tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
+                if (ns.Logic.isNextStepCollision(matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT)) {
+                    this._gameOver();
+                }
+            } else {
                 // test movement + rotation
+                tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
                 tetrimino.moveDown();
-              //  tetrimino.rotateLeft();
+                //  tetrimino.rotateLeft();
             }
 
             draw.clear();
@@ -93,14 +98,22 @@ this.dippejs = this.dippejs || {};
     Main._initWindowEvents = function () {
         var tickerMove = this.tickerMove;
         var tickerTest = this.tickerTest;
-        window.onunload = window.onbeforeunload = function () {
+        window.onbeforeunload = function (event) {
+            event.preventDefault();
             tickerMove.stop();
             tickerTest.stop();
         }
         window.onfocus = function () {
+            event.preventDefault();
             tickerMove.start();
             tickerTest.start();
         }
+    }
+
+    Main._gameOver = function () {
+        this.tickerMove.stop();
+        this.tickerTest.stop();
+        alert("game over");
     }
 
     ns.Main = Main;

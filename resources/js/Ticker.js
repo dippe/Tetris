@@ -33,7 +33,9 @@ this.dippejs = this.dippejs || {};
     };
 
     p.start = function () {
-        this._timer = setInterval(this._callback, this._timeMs);
+        if (this._timer === null) {
+            this._timer = setInterval(this._callback, this._timeMs);
+        }
     }
 
     p.stop = function () {
