@@ -14,9 +14,10 @@ this.dippejs = this.dippejs || {};
     Main.tickerTest = null;
     Main.tickerMove = null;
     Main.drawer = null;
-    Main.matrixBlockArr = [];
+    Main.matrixBlocks = [];
 
     Main.init = function () {
+        ns.InputWrapper.init();
         this.reStartGame();
         this._initWindowEvents();
     }
@@ -60,40 +61,42 @@ this.dippejs = this.dippejs || {};
     Main._initMoveTicker = function () {
         // fixme - destroy if exists
         var ticker = new ns.Ticker();
-        var draw = ns.Main.drawer;
-        var matrixBlocks = this.matrixBlockArr;
-        var tetrimino = this.activeTetrimino;
-        var tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
         ticker.init(FPS, callback.bind(this));
         ticker.start();
         this.tickerMove = ticker;
 
 //        callback test:
         function callback() {
+            var tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
 
-            if (ns.Logic.isNextStepCollision(matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT)) {
-                matrixBlocks = matrixBlocks.concat(tetriminoBlocks);
-                tetrimino = ns.Tetrimino.getRandomTetrimino();
-                tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
-                if (ns.Logic.isNextStepCollision(matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT)) {
+            if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT, MATRIX_WIDTH, 0, 1)) {
+                ns.Main.matrixBlocks = ns.Main.matrixBlocks.concat(tetriminoBlocks);
+                ns.Main.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
+                tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
+                if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, MATRIX_HEIGHT, MATRIX_WIDTH, 0, 1)) {
                     this._gameOver();
                 }
             } else {
-                // test movement + rotation
-                tetriminoBlocks = tetrimino.getAsMatrixBlockArr();
-                tetrimino.moveDown();
-                //  tetrimino.rotateLeft();
+                ns.Main.activeTetrimino.moveDown();
             }
 
-            draw.clear();
-            // draw the table with fixed elements
-            draw.drawMatrixBlocks(matrixBlocks);
-            // draw the active tetrimino
-            draw.drawMatrixBlocks(tetriminoBlocks);
+            ns.Main.reDraw();
         }
 
     }
 
+    Main.reDraw = function () {
+        var tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
+        var draw = ns.Main.drawer;
+        var matrixBlocks = ns.Main.matrixBlocks;
+
+
+        draw.clear();
+        // draw the table with fixed elements
+        draw.drawMatrixBlocks(matrixBlocks);
+        // draw the active tetrimino
+        draw.drawMatrixBlocks(tetriminoBlocks);
+    }
 
     Main._initWindowEvents = function () {
         var tickerMove = this.tickerMove;
