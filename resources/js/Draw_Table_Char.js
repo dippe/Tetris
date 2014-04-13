@@ -36,6 +36,8 @@ this.dippejs = this.dippejs || {};
         function clearCellContent(elem, index, arr) {
             elem.innerText = '0';
         }
+
+        return this;
     }
 
     p.__TableChar_drawMatrixBlocks = function (matrixBlockArr) {
@@ -46,6 +48,7 @@ this.dippejs = this.dippejs || {};
             domElem = document.querySelector(selector);
             domElem.innerText = 'X';
         }
+        return this;
     }
 
 })(dippejs)

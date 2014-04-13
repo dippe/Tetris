@@ -38,6 +38,10 @@ this.dippejs = this.dippejs || {};
         // fixme - destroy if exists
         this.drawer = new ns.Draw(MATRIX_CSSID, DEFAULT_DRAW_TYPE);
         this.drawer.init(ns.Main.MATRIX_WIDTH, ns.Main.MATRIX_HEIGHT);
+
+        // todo remove after testing phase
+        this.drawerTest = new ns.Draw(MATRIX_CSSID + "Test", ns.Const.DrawType.TABLE_CSS);
+        this.drawerTest.init(ns.Main.MATRIX_WIDTH, ns.Main.MATRIX_HEIGHT);
     }
 
     // bg color changer test
@@ -88,14 +92,17 @@ this.dippejs = this.dippejs || {};
 
     Main.reDraw = function () {
         var tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
-        var draw = ns.Main.drawer;
         var matrixBlocks = ns.Main.matrixBlocks;
 
-        draw.clear();
-        // draw the table with fixed elements
-        draw.drawMatrixBlocks(matrixBlocks);
-        // draw the active tetrimino
-        draw.drawMatrixBlocks(tetriminoBlocks);
+        ns.Main.drawer.clear()
+            .drawMatrixBlocks(matrixBlocks)
+            .drawMatrixBlocks(tetriminoBlocks);
+
+        // Todo remove after testing phase
+        ns.Main.drawerTest.clear()
+            .drawMatrixBlocks(matrixBlocks)
+            .drawMatrixBlocks(tetriminoBlocks);
+
     }
 
     Main._initWindowEvents = function () {

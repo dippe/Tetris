@@ -12,4 +12,9 @@ this.dippejs = this.dippejs || {};
         CONSOLE: 'Console'
     };
 
+
+    Const.TableCss = {
+        BG_COLOR: "wheat"
+    }
+
 })(this.dippejs)

@@ -11,11 +11,11 @@ this.dippejs = this.dippejs || {};
     p.__TableCss_init = function (width, height) {
         var rootDiv = document.getElementById(this.cssId);
 
-        var tableHtml = '<table border="1">';
+        var tableHtml = '<table class="drawTableCss">';
         for (var y = 0; y < height; y++) {
             tableHtml += '<tr class="mxrow' + y + '">';
             for (var x = 0; x < width; x++) {
-                tableHtml += '<td class="mxcol' + x + '"> 0 </td>';
+                tableHtml += '<td class="mxcol' + x + '"> </td>';
             }
             tableHtml += '</tr>';
         }
@@ -33,9 +33,12 @@ this.dippejs = this.dippejs || {};
         domElems = document.querySelectorAll('#' + this.cssId + ' td');
         [].forEach.call(domElems, clearCellContent);
 
-        function clearCellContent(elem, index, arr) {
-            elem.innerHTML = '';
+        function clearCellContent(domElem, index, arr) {
+            domElem.style.backgroundColor = ns.Const.TableCss.BG_COLOR;
+            domElem.classList.remove("block");
         }
+
+        return this;
     }
 
     p.__TableCss_drawMatrixBlocks = function (matrixBlockArr) {
@@ -44,8 +47,10 @@ this.dippejs = this.dippejs || {};
             block = matrixBlockArr[i];
             selector = '#' + this.cssId + ' .mxrow' + block.y + ' .mxcol' + block.x;
             domElem = document.querySelector(selector);
-            domElem.innerText = 'X';
+            domElem.classList.add("block");
+            domElem.style.backgroundColor = block.color;
         }
+        return this;
     }
 
 })(dippejs)
