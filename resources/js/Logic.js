@@ -14,42 +14,37 @@ this.dippejs = this.dippejs || {};
     }
 
 
-    // TODO refactor this
     Logic.isNextStepCollision = function (matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, offsetX, offsetY) {
-        var nextStepTetriminoBlocks = tetriminoBlocks;
-        // todo replace with array.clone?
-        tetriminoBlocks.forEach(function (block) {
-            nextStepTetriminoBlocks.push(new ns.MatrixBlock(block.x + offsetX, block.y + offsetY, block.color));
+        var nextStepTetriminoBlocks = [];
+
+        nextStepTetriminoBlocks = tetriminoBlocks.map(function (block) {
+            return new ns.MatrixBlock(block.x + offsetX, block.y + offsetY, block.color);
         })
 
-        try {
-            nextStepTetriminoBlocks.forEach(
-                function (tetriminoBlock) {
-                    if (_isOnMatrixEndCollision(tetriminoBlock, matrixHeight)) {
-                        throw "Matrix bottom collision";
-                    }
-
-                    if (_isOnMatrixSideCollision(tetriminoBlock, matrixWidth)) {
-                        throw "Matrix side collision";
-                    }
-
-                    matrixBlocks.forEach(
-                        function (matrixBlock) {
-                            if (_isCollision(matrixBlock, tetriminoBlock)) {
-                                throw "Collision";
-                            }
-                        }
-                    );
-                }
-            );
-            return false;
-        } catch (e) {
-            return true;
+        var data = {
+            tetriminoBlocks: tetriminoBlocks,
+            matrixBlocks: matrixBlocks,
+            matrixHeight: matrixHeight,
+            matrixWidth: matrixWidth
         }
 
+        var isCollision = nextStepTetriminoBlocks.some(
+            function (tetriminoBlock) {
+                var endColl = _isOnMatrixEndCollision(tetriminoBlock, matrixHeight);
+                var sideColl = _isOnMatrixSideCollision(tetriminoBlock, matrixWidth);
+                var blockColl = matrixBlocks.some(
+                    function (matrixBlock) {
+                        return _isBlockCollision(matrixBlock, tetriminoBlock);
+                    }
+                );
+                return endColl || sideColl || blockColl;
+            }
+        );
+
+        return isCollision;
     }
 
-    function _isCollision(blockA, blockB) {
+    function _isBlockCollision(blockA, blockB) {
         return (blockA.x === blockB.x) && (blockA.y === blockB.y);
     }
 
@@ -58,13 +53,13 @@ this.dippejs = this.dippejs || {};
     }
 
     function _isOnMatrixSideCollision(block, matrixWidth) {
-        return (block.x < 0) || (block.x > (matrixWidth));
+        return (block.x < 0) || (block.x > (matrixWidth - 1));
     }
 
 
     /* test-code */
     Logic.__testonly__ = {};
-    Logic.__testonly__._isCollision = _isCollision;
+    Logic.__testonly__._isBlockCollision = _isBlockCollision;
     Logic.__testonly__._isOnMatrixEndCollision = _isOnMatrixEndCollision;
     Logic.__testonly__._isOnMatrixSideCollision = _isOnMatrixSideCollision;
     /* end-test-code */
