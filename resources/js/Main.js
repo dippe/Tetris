@@ -62,26 +62,26 @@ this.dippejs = this.dippejs || {};
     Main._initMoveTicker = function () {
         // fixme - destroy if exists
         var ticker = new ns.Ticker();
+        var m = ns.Main;
         ticker.init(FPS, callback.bind(this));
         ticker.start();
         this.tickerMove = ticker;
 
 //        callback test:
         function callback() {
-            var tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
+            var tetriminoBlocks = m.activeTetrimino.getAsMatrixBlockArr();
 
-            if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, ns.Main.MATRIX_HEIGHT - 1, ns.Main.MATRIX_WIDTH, 0, 1)) {
-                ns.Main.matrixBlocks = ns.Main.matrixBlocks.concat(tetriminoBlocks);
-                ns.Main.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
-                tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
-                if (ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, tetriminoBlocks, ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, 1)) {
+            if (ns.Logic.isNextStepCollision(m.matrixBlocks, tetriminoBlocks, m.MATRIX_HEIGHT - 1, m.MATRIX_WIDTH, 0, 1)) {
+                m.matrixBlocks = m.matrixBlocks.concat(tetriminoBlocks);
+                m.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
+                if (ns.Logic.isNextStepCollision(m.matrixBlocks, m.activeTetrimino.getAsMatrixBlockArr(), m.MATRIX_HEIGHT, m.MATRIX_WIDTH, 0, 1)) {
                     this._gameOver();
                 }
             } else {
-                ns.Main.activeTetrimino.moveDown();
+                m.activeTetrimino.moveDown();
             }
 
-            ns.Main.reDraw();
+            m.reDraw();
         }
 
     }
@@ -116,6 +116,7 @@ this.dippejs = this.dippejs || {};
     Main._gameOver = function () {
         this.tickerMove.stop();
         this.tickerTest.stop();
+        this.reDraw();
         alert("game over");
     }
 

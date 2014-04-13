@@ -15,7 +15,7 @@ this.dippejs = this.dippejs || {};
         for (var y = 0; y < height; y++) {
             tableHtml += '<tr class="mxrow' + y + '">';
             for (var x = 0; x < width; x++) {
-                tableHtml += '<td class="mxcol' + x + '"> </td>';
+                tableHtml += '<td style="width:15px;height:15px;" class="mxcol' + x + '"> </td>';
             }
             tableHtml += '</tr>';
         }
