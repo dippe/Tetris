@@ -71,14 +71,14 @@ this.dippejs = this.dippejs || {};
         function callback() {
             var tetriminoBlocks = m.activeTetrimino.getAsMatrixBlockArr();
 
-            if (ns.Logic.isNextStepCollision(m.matrixBlocks, tetriminoBlocks, m.MATRIX_HEIGHT - 1, m.MATRIX_WIDTH, 0, 1)) {
+            if (ns.Logic.isNextStepCollision(m.matrixBlocks, tetriminoBlocks, m.MATRIX_HEIGHT, m.MATRIX_WIDTH, 0, 1)) {
                 m.matrixBlocks = m.matrixBlocks.concat(tetriminoBlocks);
                 m.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
                 if (ns.Logic.isNextStepCollision(m.matrixBlocks, m.activeTetrimino.getAsMatrixBlockArr(), m.MATRIX_HEIGHT, m.MATRIX_WIDTH, 0, 1)) {
                     this._gameOver();
                 }
             } else {
-                m.activeTetrimino.moveDown();
+                m.activeTetrimino = m.activeTetrimino.afterMoveDown();
             }
 
             m.reDraw();

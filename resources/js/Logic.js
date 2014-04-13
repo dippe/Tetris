@@ -49,7 +49,7 @@ this.dippejs = this.dippejs || {};
     }
 
     function _isOnMatrixEndCollision(block, matrixHeight) {
-        return block.y > (matrixHeight);
+        return block.y > (matrixHeight - 1);
     }
 
     function _isOnMatrixSideCollision(block, matrixWidth) {

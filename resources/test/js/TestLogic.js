@@ -24,7 +24,7 @@ test("_isOnMatrixEndCollision", function () {
 
     ok(underTest(blockAfterEnd, height), "blockAfterEnd");
     ok(!underTest(blockBeforeEnd, height), "blockBeforeEnd");
-    ok(!underTest(blockOnEnd, height), "blockOnEnd");
+    ok(underTest(blockOnEnd, height), "blockOnHeight");
 });
 
 

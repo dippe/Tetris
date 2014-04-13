@@ -16,11 +16,11 @@ this.dippejs = this.dippejs || {};
         { blocks: [0x0C60, 0x4C80, 0xC600, 0x2640], color: 'red'    }
     ]
 
-    function Tetrimino(num, rotation) {
+    function Tetrimino(num, rotation, offsetX, offsetY) {
         this._num = num;
         this._rotation = rotation;
-        this._offsetX = 0;
-        this._offsetY = 0;
+        this._offsetX = offsetX;
+        this._offsetY = offsetY;
     }
 
 
@@ -28,10 +28,10 @@ this.dippejs = this.dippejs || {};
     Tetrimino.getRandomTetrimino = function () {
         var rndNum = Math.floor(Math.random() * (TETRIMINOS.length));
         var rndRotate = Math.floor(Math.random() * 4);
+        var tetrimino = new Tetrimino(rndNum, rndRotate, 0, 0);
 
-        return new Tetrimino(rndNum, rndRotate);
+        return tetrimino;
     }
-
 
     var p = Tetrimino.prototype = {};
     p.constructor = Tetrimino;
@@ -45,24 +45,26 @@ this.dippejs = this.dippejs || {};
         return this._getTetriminoAsMatrixBlockArr(this._num, this._rotation, this._offsetX, this._offsetY);
     }
 
-    p.rotateLeft = function () {
-        this._rotation = this._rotation > 0 ? this._rotation - 1 : 3;
+    p.afterRotateLeft = function () {
+        var rotation = this._rotation > 0 ? this._rotation - 1 : 3;
+        return new Tetrimino(this._num, rotation, this._offsetX, this._offsetY);
     }
 
-    p.rotateRight = function () {
-        this._rotation = this._rotation < 3 ? this._rotation + 1 : 0;
+    p.afterRotateRight = function () {
+        var rotation = this._rotation < 3 ? this._rotation + 1 : 0;
+        return new Tetrimino(this._num, rotation, this._offsetX, this._offsetY);
     }
 
-    p.moveDown = function () {
-        this._offsetY++;
+    p.afterMoveDown = function () {
+        return new Tetrimino(this._num, this._rotation, this._offsetX, this._offsetY + 1);
     }
 
-    p.moveLeft = function () {
-        this._offsetX--;
+    p.afterMoveLeft = function () {
+        return new Tetrimino(this._num, this._rotation, this._offsetX - 1, this._offsetY);
     }
 
-    p.moveRight = function () {
-        this._offsetX++;
+    p.afterMoveRight = function () {
+        return new Tetrimino(this._num, this._rotation, this._offsetX + 1, this._offsetY);
     }
 
 

@@ -24,58 +24,52 @@ this.dippejs = this.dippejs || {};
     }
 
 
-    p.leftMove = function () {
+    p.moveLeft = function () {
         console.log("left");
         // TODO: replace direct calls with event handler!!
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, -1, 0)) {
-            ns.Main.activeTetrimino.moveLeft();
-            ns.Main.reDraw();
-        }
+        var processed = ns.Main.activeTetrimino.afterMoveLeft();
+        this._process(processed);
     }
 
-    p.rightMove = function () {
+    p.moveRight = function () {
         console.log("right");
         // TODO: replace direct calls with event handler!!
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 1, 0)) {
-            ns.Main.activeTetrimino.moveRight();
-            ns.Main.reDraw();
-        }
+        var processed = ns.Main.activeTetrimino.afterMoveRight();
+        this._process(processed);
     }
 
-    p.upMove = function () {
+    p.moveUp = function () {
         console.log("up");
         // TODO: replace direct calls with event handler!!
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, -1)) {
-            ns.Main.activeTetrimino.rotateLeft();
-            ns.Main.reDraw();
-        }
+        throw "not implemented yet";
     }
 
     p.rotateRight = function () {
         console.log("down");
         // TODO: replace direct calls with event handler!!
-        // TODO check rotation collision
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, 0)) {
-            ns.Main.activeTetrimino.rotateRight();
-            ns.Main.reDraw();
-        }
+        var processed = ns.Main.activeTetrimino.afterRotateRight();
+        this._process(processed);
     }
 
     p.rotateLeft = function () {
         console.log("down");
         // TODO: replace direct calls with event handler!!
-        // TODO check rotation collision
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, 0)) {
-            ns.Main.activeTetrimino.rotateLeft();
-            ns.Main.reDraw();
-        }
+        var processed = ns.Main.activeTetrimino.afterRotateLeft();
+        this._process(processed);
+
     }
 
-    p.downMove = function () {
+    p.moveDown = function () {
         console.log("down");
         // TODO: replace direct calls with event handler!!
-        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, ns.Main.activeTetrimino.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 1, 0)) {
-            ns.Main.activeTetrimino.moveDown();
+        var processed = ns.Main.activeTetrimino.afterMoveDown();
+        this._process(processed);
+    }
+
+
+    p._process = function (processed) {
+        if (!ns.Logic.isNextStepCollision(ns.Main.matrixBlocks, processed.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH, 0, 0)) {
+            ns.Main.activeTetrimino = processed;
             ns.Main.reDraw();
         }
     }
@@ -97,10 +91,10 @@ this.dippejs = this.dippejs || {};
                 ns.InputWrapper.rotateRight();
                 break;
             case 37:    // left
-                ns.InputWrapper.leftMove();
+                ns.InputWrapper.moveLeft();
                 break;
             case 39:    // right
-                ns.InputWrapper.rightMove();
+                ns.InputWrapper.moveRight();
                 break;
             case 32:    // space
                 ns.InputWrapper.moveDown();
