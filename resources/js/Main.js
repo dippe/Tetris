@@ -10,7 +10,7 @@ this.dippejs = this.dippejs || {};
     var Main = {};
 
     Main.MATRIX_WIDTH = 10;
-    Main.MATRIX_HEIGHT = 10;
+    Main.MATRIX_HEIGHT = 15;
 
     Main.tickerTest = null;
     Main.tickerMove = null;
@@ -85,6 +85,7 @@ this.dippejs = this.dippejs || {};
                 m.activeTetrimino = m.activeTetrimino.afterMoveDown();
             }
 
+            m.matrixBlocks = ns.Logic.matrixAfterRemoveFullLines(m.matrixBlocks, m.MATRIX_WIDTH);
             m.reDraw();
         }
 

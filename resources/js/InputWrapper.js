@@ -62,8 +62,13 @@ this.dippejs = this.dippejs || {};
     p.moveDown = function () {
         console.log("down");
         // TODO: replace direct calls with event handler!!
-        var processed = ns.Main.activeTetrimino.afterMoveDown();
-        this._process(processed);
+        var m = ns.Main;
+        var tetriminoBlocks = m.activeTetrimino.getAsMatrixBlockArr();
+
+        if (!ns.Logic.isNextStepCollision(m.matrixBlocks, tetriminoBlocks, m.MATRIX_HEIGHT, m.MATRIX_WIDTH, 0, 1)) {
+            m.activeTetrimino = m.activeTetrimino.afterMoveDown();
+            m.reDraw();
+        }
     }
 
 

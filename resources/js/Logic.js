@@ -9,8 +9,36 @@ this.dippejs = this.dippejs || {};
      */
     var Logic = {};
 
-    Logic.isLineFull = function () {
-        // TODO implement
+    Logic.matrixAfterRemoveFullLines = function (matrixBlocks, matrixWidth) {
+        var lines = [];
+        var tmpMatrixBlocks = matrixBlocks.slice(0);
+        for (var i = 0; i < ns.Main.MATRIX_HEIGHT; i++) {
+            lines[i] = 0
+        }
+
+        // sum the line elements
+        tmpMatrixBlocks.forEach(function (block) {
+            lines[block.y]++;
+        });
+
+        lines.forEach(function (lineLen, line) {
+            if (lineLen === matrixWidth) {
+                // remove line
+                tmpMatrixBlocks = tmpMatrixBlocks.filter(function (block) {
+                    return block.y !== line;
+                });
+
+                // step down the upper blocks
+                tmpMatrixBlocks.forEach(function (block) {
+                    if (block.y < line) {
+                        block.y = block.y + 1;
+                    }
+                });
+
+            }
+        });
+
+        return tmpMatrixBlocks;
     }
 
 
