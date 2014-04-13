@@ -54,13 +54,20 @@ this.dippejs = this.dippejs || {};
     }
 
     function _isOnMatrixEndCollision(block, matrixHeight) {
-        return block.y >= (matrixHeight);
+        return block.y > (matrixHeight);
     }
 
     function _isOnMatrixSideCollision(block, matrixWidth) {
-        return (block.x < 0) || (block.x >= (matrixWidth));
+        return (block.x < 0) || (block.x > (matrixWidth));
     }
 
+
+    /* test-code */
+    Logic.__testonly__ = {};
+    Logic.__testonly__._isCollision = _isCollision;
+    Logic.__testonly__._isOnMatrixEndCollision = _isOnMatrixEndCollision;
+    Logic.__testonly__._isOnMatrixSideCollision = _isOnMatrixSideCollision;
+    /* end-test-code */
 
     ns.Logic = Logic;
 
