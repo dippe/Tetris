@@ -1,0 +1,9 @@
+body
+{
+    background-color: #ffffff;
+}
+
+body > div {
+    display: inline-block;
+    margin-left: 20px;
+}

@@ -9,6 +9,25 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
+
+      <link rel="stylesheet" type="text/css" href="tetris/css/reset.css"/>
+      <link rel="stylesheet" type="text/css" href="tetris/css/main.css" />
+      <link rel="stylesheet" type="text/css" href="tetris/css/drawTableCss.css"/>
+
+      <script type="text/javascript" src="tetris/js/Common.js"></script>
+      <script type="text/javascript" src="tetris/js/EventHandler.js"></script>
+      <script type="text/javascript" src="tetris/js/InputWrapper.js"></script>
+      <script type="text/javascript" src="tetris/js/Logic.js"></script>
+      <script type="text/javascript" src="tetris/js/Ticker.js"></script>
+      <script type="text/javascript" src="tetris/js/Draw.js"></script>
+      <script type="text/javascript" src="tetris/js/Draw_Table_Char.js"></script>
+      <script type="text/javascript" src="tetris/js/Draw_Table_Css.js"></script>
+      <script type="text/javascript" src="tetris/js/MatrixBlock.js"></script>
+      <script type="text/javascript" src="tetris/js/Const.js"></script>
+      <script type="text/javascript" src="tetris/js/Tetrimino.js"></script>
+      <script type="text/javascript" src="tetris/js/Main.js"></script>
+      
+      
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -16,7 +35,7 @@
     <title>Tetris by dippe</title>
   </head>
 
-  <body>
+  <body onload="dippejs.Main.init();">
     <header>
       <div class="inner">
         <h1>Tetris</h1>
@@ -28,28 +47,23 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+          <h3>Simple Tetris example in JS.</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+            <div id="matrixArea">
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+                Game here
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+            </div>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+            <div id="matrixAreaTest">
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+                Game here - test
 
+            </div>
+
+            
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 

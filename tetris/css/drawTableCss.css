@@ -1,0 +1,15 @@
+.drawTableCss {
+    /*background-color: red;*/
+    border-spacing: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.drawTableCss td {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+
+.drawTableCss .block {
+}
