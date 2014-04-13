@@ -11,7 +11,7 @@ this.dippejs = this.dippejs || {};
     p.__TableChar_init = function (width, height) {
         var rootDiv = document.getElementById(this.cssId);
 
-        var tableHtml = '<table border="1">';
+        var tableHtml = '<table class="drawTableCss" border="1">';
         for (var y = 0; y < height; y++) {
             tableHtml += '<tr class="mxrow' + y + '">';
             for (var x = 0; x < width; x++) {
