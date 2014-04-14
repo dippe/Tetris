@@ -17,4 +17,7 @@ this.dippejs = this.dippejs || {};
         BG_COLOR: "wheat"
     }
 
+
+    Object.freeze(Const);
+
 })(this.dippejs)
