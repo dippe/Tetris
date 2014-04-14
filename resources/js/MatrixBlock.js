@@ -10,6 +10,7 @@ this.dippejs = this.dippejs || {};
         this.x = x;
         this.y = y;
         this.color = color;
+        Object.freeze(this);    // make it immutable
     }
 
     var p = MatrixBlock.prototype = {};

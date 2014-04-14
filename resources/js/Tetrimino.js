@@ -21,6 +21,7 @@ this.dippejs = this.dippejs || {};
         this._rotation = rotation;
         this._offsetX = offsetX;
         this._offsetY = offsetY;
+        Object.freeze(this);    // make immutable
     }
 
 

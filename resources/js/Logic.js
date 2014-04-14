@@ -10,11 +10,14 @@ this.dippejs = this.dippejs || {};
     var Logic = {};
 
     Logic.matrixAfterRemoveFullLines = function (matrixBlocks, matrixWidth) {
-        var lines = [];
         var tmpMatrixBlocks = matrixBlocks.slice(0);
+        var lines = [];
         for (var i = 0; i < ns.Main.MATRIX_HEIGHT; i++) {
-            lines[i] = 0
+            lines[i] = 0;
         }
+
+        // initialize array -> functional way
+        // var lines = Array.apply(null,Array(ns.Main.MATRIX_HEIGHT)).map(function(){return 0;});
 
         // sum the line elements
         tmpMatrixBlocks.forEach(function (block) {
@@ -29,10 +32,14 @@ this.dippejs = this.dippejs || {};
                 });
 
                 // step down the upper blocks
-                tmpMatrixBlocks.forEach(function (block) {
+                tmpMatrixBlocks = tmpMatrixBlocks.map(function (block) {
+                    var y;
                     if (block.y < line) {
-                        block.y = block.y + 1;
+                        y = block.y + 1;
+                    } else {
+                        y = block.y;
                     }
+                    return new ns.MatrixBlock(block.x, y, block.color);
                 });
 
             }
@@ -48,13 +55,6 @@ this.dippejs = this.dippejs || {};
         nextStepTetriminoBlocks = tetriminoBlocks.map(function (block) {
             return new ns.MatrixBlock(block.x + offsetX, block.y + offsetY, block.color);
         })
-
-        var data = {
-            tetriminoBlocks: tetriminoBlocks,
-            matrixBlocks: matrixBlocks,
-            matrixHeight: matrixHeight,
-            matrixWidth: matrixWidth
-        }
 
         var isCollision = nextStepTetriminoBlocks.some(
             function (tetriminoBlock) {
@@ -77,11 +77,15 @@ this.dippejs = this.dippejs || {};
     }
 
     function _isOnMatrixEndCollision(block, matrixHeight) {
-        return block.y > (matrixHeight - 1);
+        return _isOutsideArrInterval(block.y, 0, matrixHeight - 1);
     }
 
     function _isOnMatrixSideCollision(block, matrixWidth) {
-        return (block.x < 0) || (block.x > (matrixWidth - 1));
+        return _isOutsideArrInterval(block.x, 0, matrixWidth - 1);
+    }
+
+    function _isOutsideArrInterval(value, min, max) {
+        return (value < min) || (value > max);
     }
 
 
