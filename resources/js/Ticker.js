@@ -22,8 +22,9 @@ this.dippejs = this.dippejs || {};
      */
 
     p.init = function (fps, callback) {
-        if (!ns.Common.isNumber(fps) || fps <= 0) {
-            throw "Invalid Ticker init number";
+
+        if (!_.isFinite(fps) || fps <= 0 || !_.isFunction(callback)) {
+            throw "Invalid Ticker init number/callback";
         }
 
         this._fps = fps;
