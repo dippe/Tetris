@@ -1,7 +1,3 @@
-//Logic.__testonly__._isCollision = _isCollision;
-//Logic.__testonly__._isOnMatrixEndCollision = _isOnMatrixEndCollision;
-//Logic.__testonly__._isOnMatrixSideCollision = _isOnMatrixSideCollision;
-
 ns = dippejs;
 
 module("Logic");
@@ -50,13 +46,11 @@ test("_isOnMatrixSideCollision", function () {
 });
 
 
-test("isNextStepCollision", function () {
-    var underTest = ns.Logic.isNextStepCollision;
+test("isCollision", function () {
+    var underTest = ns.Logic.__testonly__._isCollision;
 
     var matrixHeight = 10;
     var matrixWidth = 10;
-    var offsetX = 1;
-    var offsetY = 1;
     var matrixBlocks = [
         new ns.MatrixBlock(1, 9, "red"),
         new ns.MatrixBlock(2, 9, "red"),
@@ -70,17 +64,18 @@ test("isNextStepCollision", function () {
         new ns.MatrixBlock(2, 2, "red")
     ];
 
-    ok(underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, -1, 7), "block block collision 1");
-    ok(underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, 2, 7), "block block collision 2");
-    ok(!underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, 3, 7), "block block no collision");
+    ok(underTest(matrixBlocks, [new ns.MatrixBlock(1, 9, "red")], matrixHeight, matrixWidth), "block block collision 1");
+    ok(underTest(matrixBlocks, [new ns.MatrixBlock(2, 9, "red")], matrixHeight, matrixWidth), "block block collision 2");
+    ok(!underTest(matrixBlocks, [new ns.MatrixBlock(1, 1, "red")], matrixHeight, matrixWidth), "block block no collision");
 
-    ok(underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, 0, matrixHeight), "bottom collision");
-    ok(underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, 0, matrixHeight - 3), "bottom -3 collision");
-    ok(!underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, 0, matrixHeight - 4), "bottom -4 no collision");
+    ok(underTest(matrixBlocks, [new ns.MatrixBlock(5, matrixHeight, "red")], matrixHeight, matrixWidth), "bottom collision");
+    ok(!underTest(matrixBlocks, [new ns.MatrixBlock(5, matrixHeight - 1, "red")], matrixHeight, matrixWidth), "bottom no collision");
+    ok(underTest(matrixBlocks, [new ns.MatrixBlock(5, -1, "red")], matrixHeight, matrixWidth), "top collision");
+    ok(!underTest(matrixBlocks, [new ns.MatrixBlock(5, 0, "red")], matrixHeight, matrixWidth), "top no collision");
 
-    ok(underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, -2, 0), "left side collision");
-    ok(underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, 8, 0), "right side collision");
-    ok(!underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, 7, 0), "no right side collision");
-    ok(!underTest(matrixBlocks, tetriminoBlocks, matrixHeight, matrixWidth, -1, 0), "no left side collision");
+    ok(underTest(matrixBlocks, [new ns.MatrixBlock(-1, 1, "red")], matrixHeight, matrixWidth), "left side collision");
+    ok(underTest(matrixBlocks, [new ns.MatrixBlock(matrixWidth, 1, "red")], matrixHeight, matrixWidth), "right side collision");
+    ok(!underTest(matrixBlocks, [new ns.MatrixBlock(matrixWidth - 1, 1, "red")], matrixHeight, matrixWidth), "no right side collision");
+    ok(!underTest(matrixBlocks, [new ns.MatrixBlock(0, 1, "red")], matrixHeight, matrixWidth), "no left side collision");
 
 });

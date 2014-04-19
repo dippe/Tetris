@@ -3,17 +3,16 @@ this.dippejs = this.dippejs || {};
 (function (ns) {
     'use strict';
 
-    var FPS = 2;
     var DEFAULT_DRAW_TYPE = ns.Const.DrawType.TABLE_CHAR;
     var MATRIX_CSSID = 'matrixArea';
-
     var Main = {};
 
+    Main.FPS = 2;
     Main.MATRIX_WIDTH = 10;
     Main.MATRIX_HEIGHT = 15;
 
-    Main.tickerTest = null;
-    Main.tickerMove = null;
+    Main.tickerTest = new ns.Ticker();
+    Main.tickerMove = new ns.Ticker();
     Main.drawer = null;
     Main.matrixBlocks = [];
 
@@ -29,8 +28,8 @@ this.dippejs = this.dippejs || {};
         this.activeTetrimino = new ns.Tetrimino.getRandomTetrimino();
 
         this._initDraw();
-        this._initTestColorTicker();
-        this._initMoveTicker();
+        this._initTestColorTicker(this.tickerTest);
+        ns.Logic._initMoveTicker(this.tickerMove);
 
     }
 
@@ -45,11 +44,9 @@ this.dippejs = this.dippejs || {};
     }
 
     // bg color changer test
-    Main._initTestColorTicker = function () {
+    Main._initTestColorTicker = function (ticker) {
         // fixme - destroy if exists
-        var ticker = new ns.Ticker();
         var color = 0xffffff;
-        this.tickerTest = ticker;
         ticker.init(2, callback);
         //ticker.start();
 
@@ -58,35 +55,6 @@ this.dippejs = this.dippejs || {};
             color--;
             document.querySelector('body').style.background = '#' + color.toString(16);
             //console.log(color);
-        }
-
-    }
-
-    // Matrix Block move + draw
-    Main._initMoveTicker = function () {
-        // fixme - destroy if exists
-        var ticker = new ns.Ticker();
-        var m = ns.Main;
-        ticker.init(FPS, callback.bind(this));
-        ticker.start();
-        this.tickerMove = ticker;
-
-//        callback test:
-        function callback() {
-            var tetriminoBlocks = m.activeTetrimino.getAsMatrixBlockArr();
-
-            if (ns.Logic.isNextStepCollision(m.matrixBlocks, tetriminoBlocks, m.MATRIX_HEIGHT, m.MATRIX_WIDTH, 0, 1)) {
-                m.matrixBlocks = m.matrixBlocks.concat(tetriminoBlocks);
-                m.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
-                if (ns.Logic.isNextStepCollision(m.matrixBlocks, m.activeTetrimino.getAsMatrixBlockArr(), m.MATRIX_HEIGHT, m.MATRIX_WIDTH, 0, 1)) {
-                    this._gameOver();
-                }
-            } else {
-                m.activeTetrimino = m.activeTetrimino.afterMoveDown();
-            }
-
-            m.matrixBlocks = ns.Logic.matrixAfterRemoveFullLines(m.matrixBlocks, m.MATRIX_WIDTH);
-            m.reDraw();
         }
 
     }
