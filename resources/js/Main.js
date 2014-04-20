@@ -8,7 +8,6 @@ this.dippejs = this.dippejs || {};
     Main.tickerTest = new ns.Ticker();
     Main.tickerMove = new ns.Ticker();
     Main.drawer = null;
-    Main.matrixBlocks = [];
 
     Main.init = function () {
         ns.InputWrapper.init();
@@ -19,9 +18,8 @@ this.dippejs = this.dippejs || {};
     Main.reStartGame = function () {
         var tmp, tmpArr;
 
-        this.activeTetrimino = new ns.Tetrimino.getRandomTetrimino();
-
         this._initDraw();
+        ns.Logic.init();
         this._initTestColorTicker(this.tickerTest);
         this._initMoveTicker(this.tickerMove);
 
@@ -50,31 +48,14 @@ this.dippejs = this.dippejs || {};
             document.querySelector('body').style.background = '#' + color.toString(16);
             //console.log(color);
         }
-
     }
 
     // Matrix Block move + draw
     Main._initMoveTicker = function (ticker) {
         var m = ns.Main;
-        var callback = ns.Logic.tickerCallback;
 
-        ticker.init(ns.Const.Main.FPS, callback.bind(m, ns.Const.Main.MATRIX_HEIGHT, ns.Const.Main.MATRIX_WIDTH));
+        ticker.init(ns.Const.Main.FPS, ns.Logic.tickerCallback.bind(ns.Logic, ns.Const.Main.MATRIX_HEIGHT, ns.Const.Main.MATRIX_WIDTH));
         ticker.start();
-
-    }
-
-    Main.reDraw = function () {
-        var tetriminoBlocks = ns.Main.activeTetrimino.getAsMatrixBlockArr();
-        var matrixBlocks = ns.Main.matrixBlocks;
-
-        ns.Main.drawer.clear()
-            .drawMatrixBlocks(matrixBlocks)
-            .drawMatrixBlocks(tetriminoBlocks);
-
-        // Todo remove after testing phase
-        ns.Main.drawerTest.clear()
-            .drawMatrixBlocks(matrixBlocks)
-            .drawMatrixBlocks(tetriminoBlocks);
 
     }
 
@@ -93,10 +74,9 @@ this.dippejs = this.dippejs || {};
         }
     }
 
-    Main._gameOver = function () {
+    Main.gameOver = function () {
         this.tickerMove.stop();
         this.tickerTest.stop();
-        this.reDraw();
         alert("game over");
     }
 

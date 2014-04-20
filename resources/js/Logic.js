@@ -9,36 +9,59 @@ this.dippejs = this.dippejs || {};
      */
     var Logic = {};
 
+    var _activeTetrimino;
+    var _matrixBlocks = [];
+
+    Logic.init = function () {
+        _activeTetrimino = new ns.Tetrimino.getRandomTetrimino();
+    }
+
     Logic.tickerCallback = function (height, width, matrixBlocks, activeTetrimino) {
         var m = this;
-        var nextStepTetriminoBlocks = m.activeTetrimino.afterMoveDown().getAsMatrixBlockArr();
+        var nextStepTetriminoBlocks = _activeTetrimino.afterMoveDown().getAsMatrixBlockArr();
 
-        if (_isCollision(m.matrixBlocks, nextStepTetriminoBlocks, height, width)) {
-            m.matrixBlocks = m.matrixBlocks.concat(m.activeTetrimino.getAsMatrixBlockArr());
-            m.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
-            if (_isCollision(m.matrixBlocks, m.activeTetrimino.getAsMatrixBlockArr(), height, width)) {
-                m._gameOver();
+        if (_isCollision(_matrixBlocks, nextStepTetriminoBlocks, height, width)) {
+            _matrixBlocks = _matrixBlocks.concat(_activeTetrimino.getAsMatrixBlockArr());
+            _activeTetrimino = ns.Tetrimino.getRandomTetrimino();
+            if (_isCollision(_matrixBlocks, _activeTetrimino.getAsMatrixBlockArr(), height, width)) {
+                ns.Main.gameOver();
             }
         } else {
-            m.activeTetrimino = m.activeTetrimino.afterMoveDown();
+            _activeTetrimino = _activeTetrimino.afterMoveDown();
         }
 
-        m.matrixBlocks = _matrixAfterRemoveFullLines(m.matrixBlocks, width);
+        _matrixBlocks = _matrixAfterRemoveFullLines(_matrixBlocks, width);
         m.reDraw();
+    }
+
+
+    Logic.reDraw = function () {
+        var tetriminoBlocks = _activeTetrimino.getAsMatrixBlockArr();
+        var matrixBlocks = _matrixBlocks;
+
+        ns.Main.drawer.clear()
+            .drawMatrixBlocks(matrixBlocks)
+            .drawMatrixBlocks(tetriminoBlocks);
+
+        // Todo remove after testing phase
+        ns.Main.drawerTest.clear()
+            .drawMatrixBlocks(matrixBlocks)
+            .drawMatrixBlocks(tetriminoBlocks);
+
     }
 
 
     Logic.moveLeft = function () {
         console.log("left");
         // TODO: replace direct calls with event handler!!
-        var preProcessed = ns.Main.activeTetrimino.afterMoveLeft();
+        var preProcessed = _activeTetrimino.afterMoveLeft();
         this._processMatrix(preProcessed);
     }
 
     Logic.moveRight = function () {
         console.log("right");
         // TODO: replace direct calls with event handler!!
-        var preProcessed = ns.Main.activeTetrimino.afterMoveRight();
+        var preProcessed = _activeTetrimino.afterMoveRight();
         this._processMatrix(preProcessed);
     }
 
@@ -51,14 +74,14 @@ this.dippejs = this.dippejs || {};
     Logic.rotateRight = function () {
         console.log("rotate right");
         // TODO: replace direct calls with event handler!!
-        var preProcessed = ns.Main.activeTetrimino.afterRotateRight();
+        var preProcessed = _activeTetrimino.afterRotateRight();
         this._processMatrix(preProcessed);
     }
 
     Logic.rotateLeft = function () {
         console.log("rleft");
         // TODO: replace direct calls with event handler!!
-        var preProcessed = ns.Main.activeTetrimino.afterRotateLeft();
+        var preProcessed = _activeTetrimino.afterRotateLeft();
         this._processMatrix(preProcessed);
 
     }
@@ -66,15 +89,15 @@ this.dippejs = this.dippejs || {};
     Logic.moveDown = function () {
         console.log("down");
         // TODO: replace direct calls with event handler!!
-        var preProcessed = ns.Main.activeTetrimino.afterMoveDown();
+        var preProcessed = _activeTetrimino.afterMoveDown();
         this._processMatrix(preProcessed);
     }
 
 
     Logic._processMatrix = function (preProcessedMatrix) {
-        if (!_isCollision(ns.Main.matrixBlocks, preProcessedMatrix.getAsMatrixBlockArr(), ns.Const.Main.MATRIX_HEIGHT, ns.Const.Main.MATRIX_WIDTH)) {
-            ns.Main.activeTetrimino = preProcessedMatrix;
-            ns.Main.reDraw();
+        if (!_isCollision(_matrixBlocks, preProcessedMatrix.getAsMatrixBlockArr(), ns.Const.Main.MATRIX_HEIGHT, ns.Const.Main.MATRIX_WIDTH)) {
+            _activeTetrimino = preProcessedMatrix;
+            ns.Logic.reDraw();
         }
     }
 
