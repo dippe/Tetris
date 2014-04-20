@@ -9,31 +9,22 @@ this.dippejs = this.dippejs || {};
      */
     var Logic = {};
 
+    Logic.tickerCallback = function (height, width, matrixBlocks, activeTetrimino) {
+        var m = this;
+        var nextStepTetriminoBlocks = m.activeTetrimino.afterMoveDown().getAsMatrixBlockArr();
 
-    // Matrix Block move + draw
-    Logic._initMoveTicker = function (ticker) {
-        var m = ns.Main;
-        ticker.init(m.FPS, callback.bind(m, m.MATRIX_HEIGHT, m.MATRIX_WIDTH));
-        ticker.start();
-
-//        callback test:
-        function callback(height, width, matrixBlocks, activeTetrimino) {
-            var nextStepTetriminoBlocks = m.activeTetrimino.afterMoveDown().getAsMatrixBlockArr();
-
-            if (_isCollision(m.matrixBlocks, nextStepTetriminoBlocks, height, width)) {
-                m.matrixBlocks = m.matrixBlocks.concat(m.activeTetrimino.getAsMatrixBlockArr());
-                m.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
-                if (_isCollision(m.matrixBlocks, m.activeTetrimino.getAsMatrixBlockArr(), height, width)) {
-                    m._gameOver();
-                }
-            } else {
-                m.activeTetrimino = m.activeTetrimino.afterMoveDown();
+        if (_isCollision(m.matrixBlocks, nextStepTetriminoBlocks, height, width)) {
+            m.matrixBlocks = m.matrixBlocks.concat(m.activeTetrimino.getAsMatrixBlockArr());
+            m.activeTetrimino = ns.Tetrimino.getRandomTetrimino();
+            if (_isCollision(m.matrixBlocks, m.activeTetrimino.getAsMatrixBlockArr(), height, width)) {
+                m._gameOver();
             }
-
-            m.matrixBlocks = _matrixAfterRemoveFullLines(m.matrixBlocks, width);
-            m.reDraw();
+        } else {
+            m.activeTetrimino = m.activeTetrimino.afterMoveDown();
         }
 
+        m.matrixBlocks = _matrixAfterRemoveFullLines(m.matrixBlocks, width);
+        m.reDraw();
     }
 
 
@@ -81,7 +72,7 @@ this.dippejs = this.dippejs || {};
 
 
     Logic._processMatrix = function (preProcessedMatrix) {
-        if (!_isCollision(ns.Main.matrixBlocks, preProcessedMatrix.getAsMatrixBlockArr(), ns.Main.MATRIX_HEIGHT, ns.Main.MATRIX_WIDTH)) {
+        if (!_isCollision(ns.Main.matrixBlocks, preProcessedMatrix.getAsMatrixBlockArr(), ns.Const.Main.MATRIX_HEIGHT, ns.Const.Main.MATRIX_WIDTH)) {
             ns.Main.activeTetrimino = preProcessedMatrix;
             ns.Main.reDraw();
         }
@@ -91,7 +82,7 @@ this.dippejs = this.dippejs || {};
     function _matrixAfterRemoveFullLines(matrixBlocks, matrixWidth) {
         var tmpMatrixBlocks = matrixBlocks.slice(0);
         var lines = [];
-        for (var i = 0; i < ns.Main.MATRIX_HEIGHT; i++) {
+        for (var i = 0; i < ns.Const.Main.MATRIX_HEIGHT; i++) {
             lines[i] = 0;
         }
 

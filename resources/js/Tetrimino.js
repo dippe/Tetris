@@ -34,12 +34,13 @@ this.dippejs = this.dippejs || {};
         return tetrimino;
     }
 
-    var p = Tetrimino.prototype = {};
-    p.constructor = Tetrimino;
-
     /**
      *   Prototype methods
      */
+
+
+    var p = Tetrimino.prototype = {};
+    p.constructor = Tetrimino;
 
     p.getAsMatrixBlockArr = function () {
         // TODO cache this
@@ -85,7 +86,7 @@ this.dippejs = this.dippejs || {};
         var hexa = tetrimino.blocks[rotation];
         var color = tetrimino.color;
 
-        applyOnHexa(hexa, bitToArr);
+        applyOnHexa(hexa, SIZE, bitToArr);
 
         return matrixBlockArr;
 
@@ -97,36 +98,15 @@ this.dippejs = this.dippejs || {};
         }
     }
 
-
-    // FIXME: it's inverted now
-    /*    p.convertHexaToArray = function(hexa){
-     var tmp = hexa;
-     var retArr = [];
-     for(var i=0; i<SIZE; i++){
-     retArr[i] = [];
-     var tmpStr = '';
-
-     for(var j=0; j<SIZE; j++){
-     var bit = tmp & 1;
-     retArr[i][j] = bit;
-     tmp = tmp >> 1;
-     tmpStr += bit;
-     }
-     console.log('\n' + tmpStr);
-     }
-     return retArr;
-     }*/
-
-
     /**
      *   Closure private
      */
 
     // FIXME: it's inverted now
-    var applyOnHexa = function (hexa, func) {
+    var applyOnHexa = function (hexa, size, func) {
         var tmpHexa = hexa;
-        for (var x = 0; x < SIZE; x++) {
-            for (var y = 0; y < SIZE; y++) {
+        for (var x = 0; x < size; x++) {
+            for (var y = 0; y < size; y++) {
                 var bit = tmpHexa & 1;
                 func(x, y, bit);
                 tmpHexa = tmpHexa >> 1;

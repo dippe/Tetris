@@ -3,13 +3,7 @@ this.dippejs = this.dippejs || {};
 (function (ns) {
     'use strict';
 
-    var DEFAULT_DRAW_TYPE = ns.Const.DrawType.TABLE_CHAR;
-    var MATRIX_CSSID = 'matrixArea';
     var Main = {};
-
-    Main.FPS = 2;
-    Main.MATRIX_WIDTH = 10;
-    Main.MATRIX_HEIGHT = 15;
 
     Main.tickerTest = new ns.Ticker();
     Main.tickerMove = new ns.Ticker();
@@ -29,18 +23,18 @@ this.dippejs = this.dippejs || {};
 
         this._initDraw();
         this._initTestColorTicker(this.tickerTest);
-        ns.Logic._initMoveTicker(this.tickerMove);
+        this._initMoveTicker(this.tickerMove);
 
     }
 
     Main._initDraw = function () {
         // fixme - destroy if exists
-        this.drawer = new ns.Draw(MATRIX_CSSID, DEFAULT_DRAW_TYPE);
-        this.drawer.init(ns.Main.MATRIX_WIDTH, ns.Main.MATRIX_HEIGHT);
+        this.drawer = new ns.Draw(ns.Const.Main.MATRIX_CSSID, ns.Const.DrawType.DEFAULT_DRAW_TYPE);
+        this.drawer.init(ns.Const.Main.MATRIX_WIDTH, ns.Const.Main.MATRIX_HEIGHT);
 
         // todo remove after testing phase
-        this.drawerTest = new ns.Draw(MATRIX_CSSID + "Test", ns.Const.DrawType.TABLE_CSS);
-        this.drawerTest.init(ns.Main.MATRIX_WIDTH, ns.Main.MATRIX_HEIGHT);
+        this.drawerTest = new ns.Draw(ns.Const.Main.MATRIX_CSSID + "Test", ns.Const.DrawType.TABLE_CHAR);
+        this.drawerTest.init(ns.Const.Main.MATRIX_WIDTH, ns.Const.Main.MATRIX_HEIGHT);
     }
 
     // bg color changer test
@@ -56,6 +50,16 @@ this.dippejs = this.dippejs || {};
             document.querySelector('body').style.background = '#' + color.toString(16);
             //console.log(color);
         }
+
+    }
+
+    // Matrix Block move + draw
+    Main._initMoveTicker = function (ticker) {
+        var m = ns.Main;
+        var callback = ns.Logic.tickerCallback;
+
+        ticker.init(ns.Const.Main.FPS, callback.bind(m, ns.Const.Main.MATRIX_HEIGHT, ns.Const.Main.MATRIX_WIDTH));
+        ticker.start();
 
     }
 

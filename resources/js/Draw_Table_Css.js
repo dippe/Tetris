@@ -34,7 +34,7 @@ this.dippejs = this.dippejs || {};
         [].forEach.call(domElems, clearCellContent);
 
         function clearCellContent(domElem, index, arr) {
-            domElem.style.backgroundColor = ns.Const.TableCss.BG_COLOR;
+            domElem.style.backgroundColor = "wheat";
             domElem.classList.remove("block");
         }
 

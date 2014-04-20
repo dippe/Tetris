@@ -3,21 +3,27 @@ this.dippejs = this.dippejs || {};
 (function (ns) {
     'use strict';
 
-    var Const = {};
-    ns.Const = Const;
+    var Const = {
 
-    Const.DrawType = {
-        TABLE_CSS: 'TableCss',
-        TABLE_CHAR: 'TableChar',
-        CONSOLE: 'Console'
-    };
+        DrawType: {
+            TABLE_CSS: 'TableCss',
+            TABLE_CHAR: 'TableChar',
+            CONSOLE: 'Console',
+            DEFAULT_DRAW_TYPE: 'TableCss'
+        },
 
+        Main: {
+            MATRIX_CSSID: 'matrixArea',
+            FPS: 2,
+            MATRIX_WIDTH: 10,
+            MATRIX_HEIGHT: 15
+        }
 
-    Const.TableCss = {
-        BG_COLOR: "wheat"
     }
 
 
+    ns.Const = Const;
     Object.freeze(Const);
 
-})(this.dippejs)
+})
+(this.dippejs)
