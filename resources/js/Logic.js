@@ -11,17 +11,22 @@ this.dippejs = this.dippejs || {};
 
     var _activeTetrimino;
     var _matrixBlocks = [];
+    var _reDrawFunc;
 
-    Logic.init = function () {
+    Logic.init = function (reDrawFunc) {
         _activeTetrimino = new ns.Tetrimino.getRandomTetrimino();
+        _reDrawFunc = _getReDrawFunc(reDrawFunc);
     }
 
     Logic.tickerCallback = function (height, width, matrixBlocks, activeTetrimino) {
         var m = this;
         var nextStepTetriminoBlocks = _activeTetrimino.afterMoveDown().getAsMatrixBlockArr();
 
+        _reDrawFunc();
+
         if (_isCollision(_matrixBlocks, nextStepTetriminoBlocks, height, width)) {
             _matrixBlocks = _matrixBlocks.concat(_activeTetrimino.getAsMatrixBlockArr());
+            _matrixBlocks = _matrixAfterRemoveFullLines(_matrixBlocks, width);
             _activeTetrimino = ns.Tetrimino.getRandomTetrimino();
             if (_isCollision(_matrixBlocks, _activeTetrimino.getAsMatrixBlockArr(), height, width)) {
                 ns.Main.gameOver();
@@ -30,26 +35,7 @@ this.dippejs = this.dippejs || {};
             _activeTetrimino = _activeTetrimino.afterMoveDown();
         }
 
-        _matrixBlocks = _matrixAfterRemoveFullLines(_matrixBlocks, width);
-        m.reDraw();
     }
-
-
-    Logic.reDraw = function () {
-        var tetriminoBlocks = _activeTetrimino.getAsMatrixBlockArr();
-        var matrixBlocks = _matrixBlocks;
-
-        ns.Main.drawer.clear()
-            .drawMatrixBlocks(matrixBlocks)
-            .drawMatrixBlocks(tetriminoBlocks);
-
-        // Todo remove after testing phase
-        ns.Main.drawerTest.clear()
-            .drawMatrixBlocks(matrixBlocks)
-            .drawMatrixBlocks(tetriminoBlocks);
-
-    }
-
 
     Logic.moveLeft = function () {
         console.log("left");
@@ -97,7 +83,22 @@ this.dippejs = this.dippejs || {};
     Logic._processMatrix = function (preProcessedMatrix) {
         if (!_isCollision(_matrixBlocks, preProcessedMatrix.getAsMatrixBlockArr(), ns.Const.Main.MATRIX_HEIGHT, ns.Const.Main.MATRIX_WIDTH)) {
             _activeTetrimino = preProcessedMatrix;
-            ns.Logic.reDraw();
+            _reDrawFunc();
+        }
+    }
+
+
+    /**
+     *  Private functions
+     */
+
+    function _getReDrawFunc(drawFunc) {
+        return function () {
+            var tetriminoBlocks = _activeTetrimino.getAsMatrixBlockArr();
+            var matrixBlocks = _matrixBlocks;
+            var allBlocks = tetriminoBlocks.concat(matrixBlocks);
+
+            drawFunc(allBlocks);
         }
     }
 

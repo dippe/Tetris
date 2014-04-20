@@ -19,20 +19,16 @@ this.dippejs = this.dippejs || {};
         var tmp, tmpArr;
 
         this._initDraw();
-        ns.Logic.init();
+        ns.Logic.init(this.drawer.reDraw);
         this._initTestColorTicker(this.tickerTest);
         this._initMoveTicker(this.tickerMove);
 
     }
 
     Main._initDraw = function () {
-        // fixme - destroy if exists
-        this.drawer = new ns.Draw(ns.Const.Main.MATRIX_CSSID, ns.Const.DrawType.DEFAULT_DRAW_TYPE);
-        this.drawer.init(ns.Const.Main.MATRIX_WIDTH, ns.Const.Main.MATRIX_HEIGHT);
-
-        // todo remove after testing phase
-        this.drawerTest = new ns.Draw(ns.Const.Main.MATRIX_CSSID + "Test", ns.Const.DrawType.TABLE_CHAR);
-        this.drawerTest.init(ns.Const.Main.MATRIX_WIDTH, ns.Const.Main.MATRIX_HEIGHT);
+        var c = ns.Const;
+        this.drawer = new ns.Draw(c.Main.MATRIX_CSSID, c.DrawType.TABLE_CSS, c.Main.MATRIX_WIDTH, c.Main.MATRIX_HEIGHT);
+        this.drawer.init();
     }
 
     // bg color changer test

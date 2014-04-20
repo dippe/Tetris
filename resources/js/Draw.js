@@ -3,38 +3,51 @@ this.dippejs = this.dippejs || {};
 (function (ns) {
     'use strict';
 
-    function Draw(cssId, drawType) {
+    function Draw(cssId, drawType, width, height) {
         // initialize drawing functions
-        this._initFunc('init', drawType);
-        this._initFunc('drawMatrixBlocks', drawType);
-        this._initFunc('clear', drawType);
-        this.cssId = cssId;
+        var clearFunc = this[_getFuncName('clear', drawType)];
+        var initFunc = this[_getFuncName('init', drawType)];
+        var drawFunc = this[_getFuncName('drawMatrixBlocks', drawType)];
+
+        this.reDraw = _getRedrawFunc(cssId, clearFunc, drawFunc);
+        this.init = _getInitFunc(cssId, width, height, initFunc);
+
+        Object.freeze(Draw);
     }
 
-    var p = Draw.prototype = {};
-    p.constructor = Draw;
 
     /**
      *   Prototype methods
      */
 
-    p.init = function (width, height) {
-        throw 'not initialized';
+    var p = Draw.prototype = {};
+    p.constructor = Draw;
+
+    p.init = null;
+    p.reDraw = null;
+
+
+    /**
+     *   Private methods
+     */
+
+    function _getRedrawFunc(cssId, clearFunc, drawFunc) {
+        return function (matrixBlockArr) {
+            clearFunc(cssId);
+            drawFunc(cssId, matrixBlockArr);
+        }
     }
 
-    p.drawMatrixBlocks = function (matrixBlockArr) {
-        throw 'not initialized';
-    };
-
-    p.clear = function () {
-        throw 'not initialized';
-    };
+    function _getInitFunc(cssId, width, height, initFunc) {
+        return function () {
+            initFunc(cssId, width, height);
+        }
+    }
 
 
-    // function initializer
-    p._initFunc = function (funcName, drawType) {
+    function _getFuncName(funcName, drawType) {
         var anchestorFuncName = '__' + drawType + '_' + funcName;
-        this[funcName] = this[anchestorFuncName];
+        return anchestorFuncName;
     }
 
     ns.Draw = Draw;

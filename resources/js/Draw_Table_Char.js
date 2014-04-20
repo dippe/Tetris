@@ -8,8 +8,8 @@ this.dippejs = this.dippejs || {};
     /**
      *   First time table draw
      */
-    p.__TableChar_init = function (width, height) {
-        var rootDiv = document.getElementById(this.cssId);
+    p.__TableChar_init = function (cssId, width, height) {
+        var rootDiv = document.getElementById(cssId);
 
         var tableHtml = '<table border="1">';
         for (var y = 0; y < height; y++) {
@@ -27,10 +27,10 @@ this.dippejs = this.dippejs || {};
     /**
      *   redraw the table content
      */
-    p.__TableChar_clear = function (matrix) {
+    p.__TableChar_clear = function (cssId) {
         var domElems;
 
-        domElems = document.querySelectorAll('#' + this.cssId + ' td');
+        domElems = document.querySelectorAll('#' + cssId + ' td');
         [].forEach.call(domElems, clearCellContent);
 
         function clearCellContent(elem, index, arr) {
@@ -40,11 +40,11 @@ this.dippejs = this.dippejs || {};
         return this;
     }
 
-    p.__TableChar_drawMatrixBlocks = function (matrixBlockArr) {
+    p.__TableChar_drawMatrixBlocks = function (cssId, matrixBlockArr) {
         var block, selector, domElem;
         for (var i = 0; i < matrixBlockArr.length; i++) {
             block = matrixBlockArr[i];
-            selector = '#' + this.cssId + ' .mxrow' + block.y + ' .mxcol' + block.x;
+            selector = '#' + cssId + ' .mxrow' + block.y + ' .mxcol' + block.x;
             domElem = document.querySelector(selector);
             domElem.innerText = 'X';
         }

@@ -8,8 +8,8 @@ this.dippejs = this.dippejs || {};
     /**
      *   First time table draw
      */
-    p.__TableCss_init = function (width, height) {
-        var rootDiv = document.getElementById(this.cssId);
+    p.__TableCss_init = function (cssId, width, height) {
+        var rootDiv = document.getElementById(cssId);
 
         var tableHtml = '<table class="drawTableCss">';
         for (var y = 0; y < height; y++) {
@@ -27,10 +27,10 @@ this.dippejs = this.dippejs || {};
     /**
      *   redraw the table content
      */
-    p.__TableCss_clear = function (matrix) {
+    p.__TableCss_clear = function (cssId) {
         var domElems;
 
-        domElems = document.querySelectorAll('#' + this.cssId + ' td');
+        domElems = document.querySelectorAll('#' + cssId + ' td');
         [].forEach.call(domElems, clearCellContent);
 
         function clearCellContent(domElem, index, arr) {
@@ -41,11 +41,11 @@ this.dippejs = this.dippejs || {};
         return this;
     }
 
-    p.__TableCss_drawMatrixBlocks = function (matrixBlockArr) {
+    p.__TableCss_drawMatrixBlocks = function (cssId, matrixBlockArr) {
         var block, selector, domElem;
         for (var i = 0; i < matrixBlockArr.length; i++) {
             block = matrixBlockArr[i];
-            selector = '#' + this.cssId + ' .mxrow' + block.y + ' .mxcol' + block.x;
+            selector = '#' + cssId + ' .mxrow' + block.y + ' .mxcol' + block.x;
             domElem = document.querySelector(selector);
             domElem.classList.add("block");
             domElem.style.backgroundColor = block.color;
