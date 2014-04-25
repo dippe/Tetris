@@ -84,7 +84,7 @@ this.dippejs = this.dippejs || {};
     Main.gameOver = function () {
         this.tickerMove.stop();
         this.tickerTest.stop();
-        alert("game over");
+        document.getElementById(ns.Const.Main.MATRIX_CSSID).innerHTML = "game over";
     }
 
     ns.Main = Main;

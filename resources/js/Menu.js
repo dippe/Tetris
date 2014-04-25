@@ -12,25 +12,24 @@ this.dippejs = this.dippejs || {};
 
     var Menu = {};
 
+    Menu.redraw = undefined;
+    Menu.show = undefined;
+    Menu.hide = undefined;
+
+
     Menu.init = function (cssId) {
         if (_.isEmpty(cssId)) {
             throw "menu init: invalid arguments";
         }
 
         var menuDomElem = document.getElementById(cssId);
+        menuDomElem.innerHTML = "";
 
         this.redraw = getRedrawMenuFunc(menuDomElem, menuItems);
-        this.show = getShowFunc(menuDomElem);
-        this.hide = getHideFunc(menuDomElem);
+        this.show = getShowFunc(menuDomElem, slideIn);
+        this.hide = getHideFunc(menuDomElem, slideOut);
 
     }
-
-    Menu.redraw = undefined;
-
-    Menu.show = undefined;
-
-    Menu.hide = undefined;
-
 
     /**
      *
@@ -59,29 +58,34 @@ this.dippejs = this.dippejs || {};
 
     }
 
-    function getShowFunc(menuDomElem) {
+    function getShowFunc(menuDomElem, menuItemAnimFunc) {
 
-        return function (menuItemAnimFunc) {
-            _.each(menuDomElem.children, menuItemAnimFunc)
+        return function () {
+            _.each(menuDomElem.firstChild.children, menuItemAnimFunc)
         }
 
     }
 
-    function getHideFunc(menuDomElem) {
+    function getHideFunc(menuDomElem, menuItemAnimFunc) {
 
-        return function (menuItemAnimFunc) {
-            _.each(menuDomElem.children, menuItemAnimFunc)
+        return function () {
+            var tmp = menuDomElem.firstChild;
+            _.each(menuDomElem.firstChild.children, menuItemAnimFunc)
         }
 
     }
 
 
     function slideIn(domElem) {
-        domElem.classList.add("slideInTransform");
+        console.log("slideIn");
+        domElem.classList.remove("slideOut");
+        domElem.classList.add("slideIn");
     }
 
     function slideOut(domElem) {
-        domElem.classList.add("slideOutTransform");
+        console.log("slideOut");
+        domElem.classList.remove("slideIn");
+        domElem.classList.add("slideOut");
     }
 
 
@@ -94,7 +98,7 @@ this.dippejs = this.dippejs || {};
 
     function getButtonElem(menuItem) {
         var newElem = document.createElement("div");
-        newElem.classList.add("Button");
+        newElem.classList.add("button");
         newElem.innerText = menuItem.name;
         newElem.onclick = menuItem.onSelect;
 
