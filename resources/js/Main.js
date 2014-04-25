@@ -13,6 +13,7 @@ this.dippejs = this.dippejs || {};
         ns.InputWrapper.init();
         this.reStartGame();
         this._initWindowEvents();
+        this._initMenu();
     }
 
     Main.reStartGame = function () {
@@ -29,6 +30,16 @@ this.dippejs = this.dippejs || {};
         var c = ns.Const;
         this.drawer = new ns.Draw(c.Main.MATRIX_CSSID, c.DrawType.TABLE_CSS, c.Main.MATRIX_WIDTH, c.Main.MATRIX_HEIGHT);
         this.drawer.init();
+    }
+
+    Main._initMenu = function () {
+
+        ns.Menu.init(ns.Const.Main.MENU_CSSID);
+
+        ns.Menu.redraw();
+
+        ns.Menu.show();
+
     }
 
     // bg color changer test

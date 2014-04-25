@@ -14,6 +14,7 @@ this.dippejs = this.dippejs || {};
 
         Main: {
             MATRIX_CSSID: 'matrixArea',
+            MENU_CSSID: 'menuContainer',
             FPS: 2,
             MATRIX_WIDTH: 10,
             MATRIX_HEIGHT: 15
